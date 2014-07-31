@@ -38,7 +38,7 @@
     
     [self.navigationItem setTitleView:self.titleLabel];
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0, IS_iOS7 ? 64.0 : 0.0, 320.0, App_Height - Nav_Height)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, App_Height - Nav_Height)];
     [self.view addSubview:self.contentView];
 }
 
