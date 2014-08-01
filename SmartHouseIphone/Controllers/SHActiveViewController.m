@@ -7,6 +7,7 @@
 //
 
 #import "SHActiveViewController.h"
+#import "SHLoginViewController.h"
 
 @interface SHActiveViewController ()
 
@@ -27,6 +28,7 @@
 {
     keyBoardShowing = NO;
     [super viewDidLoad];
+    [self hideNavigationBar];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     self.activeBox = [[UIView alloc] initWithFrame:CGRectMake(15.0, 40.0, 290.0, 302.0)];
     [self.activeBox setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"box_bg"]]];
@@ -67,7 +69,9 @@
     
     self.activeField = [[UITextField alloc] initWithFrame:CGRectMake(25.0, 175.0, 240.0, 40.0)];
     [self.activeField setBackground:[UIImage imageNamed:@"input_box"]];
-    [self.activeField setFont:[UIFont systemFontOfSize:16.0]];
+    [self.activeField setFont:[UIFont systemFontOfSize:20.0]];
+    [self.activeField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+    [self.activeField setTextColor:[UIColor colorWithRed:0.714 green:0.267 blue:0.086 alpha:1]];
     [self.activeField setTextAlignment:NSTextAlignmentCenter];
     [self.activeField setDelegate:self];
     [self.activeBox addSubview:self.activeField];
@@ -75,16 +79,28 @@
     self.activeSubmit = [[UIButton alloc] initWithFrame:CGRectMake(22.5, 230.0, 245.0, 47.0)];
     [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_commit_normal"] forState:UIControlStateNormal];
     [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_commit_pressed"] forState:UIControlStateHighlighted];
+    [self.activeSubmit addTarget:self action:@selector(onSubmitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.activeBox addSubview:self.activeSubmit];
+}
+
+- (void)onSubmitClicked
+{
+    SHLoginViewController *loginController = [[SHLoginViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:loginController animated:YES];
+}
+
+- (void)hideNavigationBar
+{
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.contentView setFrame:CGRectMake(0.0, 0.0, 320.0, App_Height)];
 }
 
 - (void)hideKeyboard
 {
-    if (keyBoardShowing) {
-        [self.activeField resignFirstResponder];
-        
+    [self.activeField resignFirstResponder];
+    if ((keyBoardShowing)&&(App_Height <= 480.0)) {
         CGRect frame = self.contentView.frame;
-        int offset = frame.origin.y + 130.0;//键盘高度216
+        int offset = frame.origin.y + 80.0;//键盘高度216
         NSTimeInterval animationDuration = 0.30f;
         [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
         [UIView setAnimationDuration:animationDuration];
@@ -102,11 +118,11 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     // When the user presses return, take focus away from the text field so that the keyboard is dismissed.
-    if (!keyBoardShowing) {
+    if ((!keyBoardShowing)||(App_Height >= 480.0)) {
         return YES;
     }
     CGRect frame = self.contentView.frame;
-    int offset = frame.origin.y + 130.0;//键盘高度216
+    int offset = frame.origin.y + 80.0;//键盘高度216
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
@@ -125,11 +141,12 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (keyBoardShowing) {
+    NSLog(@"%f", App_Height);
+    if ((keyBoardShowing)||(App_Height >= 480.0)) {
         return;
     }
     CGRect frame = self.contentView.frame;
-    int offset = frame.origin.y - 130.0;//键盘高度216
+    int offset = frame.origin.y - 80.0;//键盘高度216
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];

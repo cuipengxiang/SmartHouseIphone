@@ -8,6 +8,17 @@
 
 #import "SHParentViewController.h"
 
-@interface SHLoginViewController : SHParentViewController
+@interface SHLoginViewController : SHParentViewController<UIGestureRecognizerDelegate, UITextFieldDelegate>
+{
+    UILabel *loginLabel;
+}
+
+@property (nonatomic, strong)UITextField *passwordField;
+@property (nonatomic, strong)UIButton *loginButton;
+@property (nonatomic, strong)UIImageView *imageView;
+@property (nonatomic, strong)UIImageView *loginbox;
+
+- (void)loginCheck;
+- (void)onTouch;
 
 @end
