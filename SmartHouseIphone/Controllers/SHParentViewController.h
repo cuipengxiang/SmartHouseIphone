@@ -15,9 +15,9 @@
 @property (nonatomic, strong) UIView *contentView;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) UIBarButtonItem *networkStateButton;
 
-- (void)setNavigationLeftButtonWithImage:(UIImage *)image Target:(id)target Action:(SEL)selector;
-- (void)setNavigationRightButtonWithImage:(UIImage *)image Target:(id)target Action:(SEL)selector;
+- (void)setNavigationLeftButtonWithTarget:(id)target Action:(SEL)selector;
 - (void)setNavigationTitle:(NSString *)title;
 - (void)setNavigationTitleView:(UIView *)view;
 

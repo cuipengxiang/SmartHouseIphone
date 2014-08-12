@@ -8,6 +8,7 @@
 
 #import "SHRoomsListViewController.h"
 #import "SHRoomCell.h"
+#import "SHSettingsViewController.h"
 
 @interface SHRoomsListViewController ()
 
@@ -28,7 +29,14 @@
 {
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [super viewDidLoad];
-    [self.navigationController setNavigationBarHidden:NO];
+    
+    UIButton *settingButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [settingButton setBackgroundImage:[UIImage imageNamed:@"btn_setup"] forState:UIControlStateNormal];
+    [settingButton addTarget:self action:@selector(onSettingButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+    NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
+    [self.navigationItem setRightBarButtonItems:rightButtons];
+    
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10.0, 10.0, 300.0, self.contentView.frame.size.height - 20.0)];
@@ -40,6 +48,17 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView reloadData];
     [self.contentView addSubview:self.tableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void)onSettingButtonClicked
+{
+    SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:settingController animated:YES];
 }
 
 #pragma mark UITableViewDelegate

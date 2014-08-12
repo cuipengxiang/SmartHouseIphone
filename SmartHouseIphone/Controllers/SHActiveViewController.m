@@ -28,7 +28,6 @@
 {
     keyBoardShowing = NO;
     [super viewDidLoad];
-    [self hideNavigationBar];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.contentView setUserInteractionEnabled:YES];
@@ -81,22 +80,27 @@
     [self.activeBox addSubview:self.activeField];
     
     self.activeSubmit = [[UIButton alloc] initWithFrame:CGRectMake(22.5, 230.0, 245.0, 47.0)];
-    [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_commit_normal"] forState:UIControlStateNormal];
-    [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_commit_pressed"] forState:UIControlStateHighlighted];
+    [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_active_normal"] forState:UIControlStateNormal];
+    [self.activeSubmit setBackgroundImage:[UIImage imageNamed:@"btn_active_pressed"] forState:UIControlStateHighlighted];
     [self.activeSubmit addTarget:self action:@selector(onSubmitClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.activeBox addSubview:self.activeSubmit];
 }
 
-- (void)onSubmitClicked
+- (void)viewWillAppear:(BOOL)animated
 {
-    SHLoginViewController *loginController = [[SHLoginViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:loginController animated:YES];
+    [self hideNavigationBar];
 }
 
 - (void)hideNavigationBar
 {
     [self.navigationController setNavigationBarHidden:YES];
     [self.contentView setFrame:CGRectMake(0.0, 0.0, 320.0, App_Height)];
+}
+
+- (void)onSubmitClicked
+{
+    SHLoginViewController *loginController = [[SHLoginViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:loginController animated:YES];
 }
 
 - (void)hideKeyboard
@@ -117,6 +121,14 @@
         [UIView commitAnimations];
         keyBoardShowing = NO;
     }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[UIButton class]]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -27,9 +27,31 @@
 {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:IS_iOS7 ? @"topbar_bg" : @"topbar_bg"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"topbar_bg"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
+    UIButton *networkButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [networkButton setBackgroundImage:[UIImage imageNamed:@"network_connected"] forState:UIControlStateNormal];
+    [networkButton setBackgroundImage:[UIImage imageNamed:@"network_disconnected"] forState:UIControlStateSelected];
+    self.networkStateButton = [[UIBarButtonItem alloc] initWithCustomView:networkButton];
+    
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0, IS_iOS7? 64.0:0.0, 320.0, App_Height - Nav_Height)];
+    [self.view addSubview:self.contentView];
+    
+    [self setNavigationLeftButtonWithTarget:self Action:@selector(onBackButtonClicked)];
+}
+
+- (void)setNavigationLeftButtonWithTarget:(id)target Action:(SEL)selector
+{
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [leftButton setImage:[UIImage imageNamed:@"btn_return"] forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"btn_return_pressed"] forState:UIControlStateHighlighted];
+    [leftButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftButton]];
+}
+
+- (void)setNavigationTitle:(NSString *)title
+{
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(118.5, 10.0, 83.0, 25.0)];
     [self.titleLabel setBackgroundColor:[UIColor clearColor]];
     [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
@@ -37,35 +59,22 @@
     [self.titleLabel setFont:[UIFont boldSystemFontOfSize:22.0]];
     
     [self.navigationItem setTitleView:self.titleLabel];
-    
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, App_Height - Nav_Height)];
-    [self.view addSubview:self.contentView];
-}
-
-- (void)setNavigationRightButtonWithImage:(UIImage *)image Target:(id)target Action:(SEL)selector
-{
-    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 12.0, 20.0, 20.0)];
-    [rightButton setImage:image forState:UIControlStateNormal];
-    [rightButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightButton]];
-}
-
-- (void)setNavigationLeftButtonWithImage:(UIImage *)image Target:(id)target Action:(SEL)selector
-{
-    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 12.0, 20.0, 20.0)];
-    [leftButton setImage:image forState:UIControlStateNormal];
-    [leftButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftButton]];
-}
-
-- (void)setNavigationTitle:(NSString *)title
-{
     [self.titleLabel setText:title];
 }
 
 - (void)setNavigationTitleView:(UIView *)view
 {
     [self.navigationItem setTitleView:view];
+}
+
+- (BOOL)automaticallyAdjustsScrollViewInsets
+{
+    return NO;
+}
+
+- (void)onBackButtonClicked
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

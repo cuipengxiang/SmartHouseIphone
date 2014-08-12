@@ -29,7 +29,7 @@
     [super viewDidLoad];
     keyBoardShowing = NO;
     [super viewDidLoad];
-    [self hideNavigationBar];
+
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.contentView setUserInteractionEnabled:YES];
@@ -65,6 +65,11 @@
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"btn_login_iphone_normal"] forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(loginCheck) forControlEvents:UIControlEventTouchUpInside];
     [self.loginbox addSubview:self.loginButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self hideNavigationBar];
 }
 
 - (void)loginCheck
@@ -121,6 +126,14 @@
     [self.passwordField setText:nil];
     [self.passwordField setPlaceholder:@"请输入密码"];
     [self.passwordField setBackground:[UIImage imageNamed:@"login_input_box"]];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[UIButton class]]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
