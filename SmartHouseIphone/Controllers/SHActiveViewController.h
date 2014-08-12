@@ -20,5 +20,4 @@
 @property (strong, nonatomic) UITextField *activeField;
 @property (strong, nonatomic) UIButton *activeSubmit;
 
-
 @end

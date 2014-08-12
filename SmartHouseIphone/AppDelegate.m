@@ -23,12 +23,12 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"first"]) {
         SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
-        //[self.navigation setNavigationBarHidden:YES];
+        mainController.appDelegate = self;
         self.window.rootViewController = self.navigation;
     } else {
         SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
-        //[self.navigation setNavigationBarHidden:YES];
+        mainController.appDelegate = self;
         self.window.rootViewController = self.navigation;
     }
     

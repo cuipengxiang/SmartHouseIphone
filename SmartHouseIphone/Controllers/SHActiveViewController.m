@@ -30,6 +30,10 @@
     [super viewDidLoad];
     [self hideNavigationBar];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.contentView setUserInteractionEnabled:YES];
+    [self.contentView addGestureRecognizer:tap1];
+    
     self.activeBox = [[UIView alloc] initWithFrame:CGRectMake(15.0, 40.0, 290.0, 302.0)];
     [self.activeBox setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"box_bg"]]];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -141,7 +145,6 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    NSLog(@"%f", App_Height);
     if ((keyBoardShowing)||(App_Height >= 480.0)) {
         return;
     }

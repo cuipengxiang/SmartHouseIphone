@@ -49,6 +49,24 @@
 		D80C25EF198A7CEB006746A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80C25EE198A7CEB006746A4 /* Security.framework */; };
 		D80C25F1198A7D04006746A4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80C25F0198A7D04006746A4 /* CFNetwork.framework */; };
 		D80C25F3198A7D19006746A4 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D80C25F2198A7D19006746A4 /* libicucore.dylib */; };
+		D83F35D61990CF1000FE5969 /* SHRoomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D83F35D51990CF1000FE5969 /* SHRoomCell.m */; };
+		D83F35DD1990D2B800FE5969 /* arrow_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35D71990D2B800FE5969 /* arrow_iphone.png */; };
+		D83F35DE1990D2B800FE5969 /* arrow_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35D81990D2B800FE5969 /* arrow_iphone@2x.png */; };
+		D83F35DF1990D2B800FE5969 /* line_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35D91990D2B800FE5969 /* line_iphone.png */; };
+		D83F35E01990D2B800FE5969 /* line_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35DA1990D2B800FE5969 /* line_iphone@2x.png */; };
+		D83F35E11990D2B800FE5969 /* list_bg_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35DB1990D2B800FE5969 /* list_bg_iphone.png */; };
+		D83F35E21990D2B800FE5969 /* list_bg_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D83F35DC1990D2B800FE5969 /* list_bg_iphone@2x.png */; };
+		D84E060C198DF54F00725BFF /* SHRoomsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D84E060B198DF54F00725BFF /* SHRoomsListViewController.m */; };
+		D84E0613198DF9A000725BFF /* btn_login_iphone_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E060D198DF9A000725BFF /* btn_login_iphone_normal.png */; };
+		D84E0614198DF9A000725BFF /* btn_login_iphone_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E060E198DF9A000725BFF /* btn_login_iphone_normal@2x.png */; };
+		D84E0615198DF9A000725BFF /* btn_login_iphone_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E060F198DF9A000725BFF /* btn_login_iphone_pressed.png */; };
+		D84E0616198DF9A000725BFF /* btn_login_iphone_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E0610198DF9A000725BFF /* btn_login_iphone_pressed@2x.png */; };
+		D84E0617198DF9A000725BFF /* login_box_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E0611198DF9A000725BFF /* login_box_iphone.png */; };
+		D84E0618198DF9A000725BFF /* login_box_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E0612198DF9A000725BFF /* login_box_iphone@2x.png */; };
+		D84E061D198DFCCC00725BFF /* login_input_box_focused.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E0619198DFCCC00725BFF /* login_input_box_focused.png */; };
+		D84E061E198DFCCC00725BFF /* login_input_box_focused@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E061A198DFCCC00725BFF /* login_input_box_focused@2x.png */; };
+		D84E061F198DFCCC00725BFF /* login_input_box.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E061B198DFCCC00725BFF /* login_input_box.png */; };
+		D84E0620198DFCCC00725BFF /* login_input_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D84E061C198DFCCC00725BFF /* login_input_box@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +131,26 @@
 		D80C25EE198A7CEB006746A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D80C25F0198A7D04006746A4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D80C25F2198A7D19006746A4 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		D83F35D41990CF1000FE5969 /* SHRoomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHRoomCell.h; sourceTree = "<group>"; };
+		D83F35D51990CF1000FE5969 /* SHRoomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHRoomCell.m; sourceTree = "<group>"; };
+		D83F35D71990D2B800FE5969 /* arrow_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_iphone.png; sourceTree = "<group>"; };
+		D83F35D81990D2B800FE5969 /* arrow_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_iphone@2x.png"; sourceTree = "<group>"; };
+		D83F35D91990D2B800FE5969 /* line_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line_iphone.png; sourceTree = "<group>"; };
+		D83F35DA1990D2B800FE5969 /* line_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line_iphone@2x.png"; sourceTree = "<group>"; };
+		D83F35DB1990D2B800FE5969 /* list_bg_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_bg_iphone.png; sourceTree = "<group>"; };
+		D83F35DC1990D2B800FE5969 /* list_bg_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list_bg_iphone@2x.png"; sourceTree = "<group>"; };
+		D84E060A198DF54F00725BFF /* SHRoomsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHRoomsListViewController.h; sourceTree = "<group>"; };
+		D84E060B198DF54F00725BFF /* SHRoomsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHRoomsListViewController.m; sourceTree = "<group>"; };
+		D84E060D198DF9A000725BFF /* btn_login_iphone_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_login_iphone_normal.png; sourceTree = "<group>"; };
+		D84E060E198DF9A000725BFF /* btn_login_iphone_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_iphone_normal@2x.png"; sourceTree = "<group>"; };
+		D84E060F198DF9A000725BFF /* btn_login_iphone_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_login_iphone_pressed.png; sourceTree = "<group>"; };
+		D84E0610198DF9A000725BFF /* btn_login_iphone_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_iphone_pressed@2x.png"; sourceTree = "<group>"; };
+		D84E0611198DF9A000725BFF /* login_box_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_box_iphone.png; sourceTree = "<group>"; };
+		D84E0612198DF9A000725BFF /* login_box_iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_box_iphone@2x.png"; sourceTree = "<group>"; };
+		D84E0619198DFCCC00725BFF /* login_input_box_focused.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_input_box_focused.png; sourceTree = "<group>"; };
+		D84E061A198DFCCC00725BFF /* login_input_box_focused@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_input_box_focused@2x.png"; sourceTree = "<group>"; };
+		D84E061B198DFCCC00725BFF /* login_input_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_input_box.png; sourceTree = "<group>"; };
+		D84E061C198DFCCC00725BFF /* login_input_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_input_box@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +191,8 @@
 		D80BCCAB198A7DD000A0F4AE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D83F35D41990CF1000FE5969 /* SHRoomCell.h */,
+				D83F35D51990CF1000FE5969 /* SHRoomCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -160,12 +200,14 @@
 		D80BCCAC198A7DD800A0F4AE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D80BCCF6198A7E8500A0F4AE /* SHParentViewController.h */,
+				D80BCCF7198A7E8500A0F4AE /* SHParentViewController.m */,
 				D80BCCF2198A7E8500A0F4AE /* SHActiveViewController.h */,
 				D80BCCF3198A7E8500A0F4AE /* SHActiveViewController.m */,
 				D80BCCF4198A7E8500A0F4AE /* SHLoginViewController.h */,
 				D80BCCF5198A7E8500A0F4AE /* SHLoginViewController.m */,
-				D80BCCF6198A7E8500A0F4AE /* SHParentViewController.h */,
-				D80BCCF7198A7E8500A0F4AE /* SHParentViewController.m */,
+				D84E060A198DF54F00725BFF /* SHRoomsListViewController.h */,
+				D84E060B198DF54F00725BFF /* SHRoomsListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -173,6 +215,22 @@
 		D80BCCAD198A7DE900A0F4AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D83F35D71990D2B800FE5969 /* arrow_iphone.png */,
+				D83F35D81990D2B800FE5969 /* arrow_iphone@2x.png */,
+				D83F35D91990D2B800FE5969 /* line_iphone.png */,
+				D83F35DA1990D2B800FE5969 /* line_iphone@2x.png */,
+				D83F35DB1990D2B800FE5969 /* list_bg_iphone.png */,
+				D83F35DC1990D2B800FE5969 /* list_bg_iphone@2x.png */,
+				D84E0619198DFCCC00725BFF /* login_input_box_focused.png */,
+				D84E061A198DFCCC00725BFF /* login_input_box_focused@2x.png */,
+				D84E061B198DFCCC00725BFF /* login_input_box.png */,
+				D84E061C198DFCCC00725BFF /* login_input_box@2x.png */,
+				D84E060D198DF9A000725BFF /* btn_login_iphone_normal.png */,
+				D84E060E198DF9A000725BFF /* btn_login_iphone_normal@2x.png */,
+				D84E060F198DF9A000725BFF /* btn_login_iphone_pressed.png */,
+				D84E0610198DF9A000725BFF /* btn_login_iphone_pressed@2x.png */,
+				D84E0611198DF9A000725BFF /* login_box_iphone.png */,
+				D84E0612198DF9A000725BFF /* login_box_iphone@2x.png */,
 				D80BCCAF198A7E2000A0F4AE /* bg.png */,
 				D80BCCB0198A7E2000A0F4AE /* bg@2x.png */,
 				D80BCCB1198A7E2000A0F4AE /* box_bg.png */,
@@ -352,24 +410,40 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D84E061D198DFCCC00725BFF /* login_input_box_focused.png in Resources */,
 				D80C25C8198A7C1C006746A4 /* InfoPlist.strings in Resources */,
+				D84E0616198DF9A000725BFF /* btn_login_iphone_pressed@2x.png in Resources */,
 				D80BCCC8198A7E2000A0F4AE /* Default-568h@2x.png in Resources */,
+				D83F35DD1990D2B800FE5969 /* arrow_iphone.png in Resources */,
 				D80BCCC7198A7E2000A0F4AE /* btn_commit_pressed@2x.png in Resources */,
 				D80BCCC5198A7E2000A0F4AE /* btn_commit_normal@2x.png in Resources */,
+				D84E0614198DF9A000725BFF /* btn_login_iphone_normal@2x.png in Resources */,
+				D84E0613198DF9A000725BFF /* btn_login_iphone_normal.png in Resources */,
+				D84E061E198DFCCC00725BFF /* login_input_box_focused@2x.png in Resources */,
 				D80BCCCC198A7E2000A0F4AE /* input_box_focused@2x.png in Resources */,
 				D80BCCCA198A7E2000A0F4AE /* Default@2x.png in Resources */,
+				D83F35DF1990D2B800FE5969 /* line_iphone.png in Resources */,
 				D80BCCCF198A7E2000A0F4AE /* topbar_bg.png in Resources */,
 				D80C25D0198A7C1C006746A4 /* Images.xcassets in Resources */,
+				D83F35E11990D2B800FE5969 /* list_bg_iphone.png in Resources */,
 				D80BCCC6198A7E2000A0F4AE /* btn_commit_pressed.png in Resources */,
+				D83F35E21990D2B800FE5969 /* list_bg_iphone@2x.png in Resources */,
+				D84E061F198DFCCC00725BFF /* login_input_box.png in Resources */,
+				D84E0620198DFCCC00725BFF /* login_input_box@2x.png in Resources */,
+				D83F35E01990D2B800FE5969 /* line_iphone@2x.png in Resources */,
 				D80BCCD0198A7E2000A0F4AE /* topbar_bg@2x.png in Resources */,
 				D80BCCCD198A7E2000A0F4AE /* input_box.png in Resources */,
 				D80BCCC0198A7E2000A0F4AE /* bg.png in Resources */,
 				D80BCCC9198A7E2000A0F4AE /* Default.png in Resources */,
 				D80BCCC4198A7E2000A0F4AE /* btn_commit_normal.png in Resources */,
 				D80BCCCB198A7E2000A0F4AE /* input_box_focused.png in Resources */,
+				D84E0617198DF9A000725BFF /* login_box_iphone.png in Resources */,
 				D80BCCCE198A7E2000A0F4AE /* input_box@2x.png in Resources */,
+				D84E0618198DF9A000725BFF /* login_box_iphone@2x.png in Resources */,
 				D80BCCC1198A7E2000A0F4AE /* bg@2x.png in Resources */,
 				D80BCCC2198A7E2000A0F4AE /* box_bg.png in Resources */,
+				D83F35DE1990D2B800FE5969 /* arrow_iphone@2x.png in Resources */,
+				D84E0615198DF9A000725BFF /* btn_login_iphone_pressed.png in Resources */,
 				D80BCCC3198A7E2000A0F4AE /* box_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,10 +463,12 @@
 				D80BCCF1198A7E7400A0F4AE /* SHRoomModel.m in Sources */,
 				D80BCCF0198A7E7400A0F4AE /* SHModeModel.m in Sources */,
 				D80BCCD6198A7E5600A0F4AE /* GCDAsyncSocket.m in Sources */,
+				D84E060C198DF54F00725BFF /* SHRoomsListViewController.m in Sources */,
 				D80C25CE198A7C1C006746A4 /* AppDelegate.m in Sources */,
 				D80BCCFA198A7E8500A0F4AE /* SHParentViewController.m in Sources */,
 				D80BCCFD198A7EF000A0F4AE /* SHConfigFile.m in Sources */,
 				D80BCCEF198A7E7400A0F4AE /* SHLightModel.m in Sources */,
+				D83F35D61990CF1000FE5969 /* SHRoomCell.m in Sources */,
 				D80BCCD9198A7E6000A0F4AE /* RegexKitLite.m in Sources */,
 				D80BCCF9198A7E8500A0F4AE /* SHLoginViewController.m in Sources */,
 				D80C25CA198A7C1C006746A4 /* main.m in Sources */,
