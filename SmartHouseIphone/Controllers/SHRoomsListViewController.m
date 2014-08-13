@@ -9,6 +9,7 @@
 #import "SHRoomsListViewController.h"
 #import "SHRoomCell.h"
 #import "SHSettingsViewController.h"
+#import "SHRoomMainViewController.h"
 
 @interface SHRoomsListViewController ()
 
@@ -68,10 +69,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //SHRoomDetailViewController *controller = [[SHRoomDetailViewController alloc] initWithNibName:nil bundle:nil];
-    //controller.model = [(SHRoomCell *)[tableView cellForRowAtIndexPath:indexPath] data];
-    //[self presentViewController:controller animated:YES completion:^(void){
-    //}];
+    SHRoomMainViewController *controller = [[SHRoomMainViewController alloc] initWithNibName:nil bundle:nil];
+    controller.model = [self.appDelegate.models objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

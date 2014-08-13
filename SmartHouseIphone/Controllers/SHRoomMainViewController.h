@@ -7,7 +7,11 @@
 //
 
 #import "SHParentViewController.h"
+#import "SHRoomModel.h"
 
 @interface SHRoomMainViewController : SHParentViewController
+
+@property (nonatomic, strong)SHRoomModel *model;
+@property (nonatomic, strong)UIButton *networkButton;
 
 @end

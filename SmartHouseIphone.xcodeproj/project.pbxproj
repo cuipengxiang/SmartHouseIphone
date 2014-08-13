@@ -108,6 +108,25 @@
 		D8909B0C199A8A51009B041B /* setup_box.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B00199A8A51009B041B /* setup_box.png */; };
 		D8909B0D199A8A51009B041B /* setup_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B01199A8A51009B041B /* setup_box@2x.png */; };
 		D8909B10199A8D61009B041B /* SHRoomMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B0F199A8D61009B041B /* SHRoomMainViewController.m */; };
+		D8909B21199AE47D009B041B /* btn_curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B13199AE47D009B041B /* btn_curtain.png */; };
+		D8909B22199AE47D009B041B /* btn_curtain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B14199AE47D009B041B /* btn_curtain@2x.png */; };
+		D8909B23199AE47D009B041B /* btn_light.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B15199AE47D009B041B /* btn_light.png */; };
+		D8909B24199AE47D009B041B /* btn_light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B16199AE47D009B041B /* btn_light@2x.png */; };
+		D8909B25199AE47D009B041B /* btn_mode.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B17199AE47D009B041B /* btn_mode.png */; };
+		D8909B26199AE47D009B041B /* btn_mode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B18199AE47D009B041B /* btn_mode@2x.png */; };
+		D8909B27199AE47D009B041B /* btn_music.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B19199AE47D009B041B /* btn_music.png */; };
+		D8909B28199AE47D009B041B /* btn_music@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B1A199AE47D009B041B /* btn_music@2x.png */; };
+		D8909B29199AE47D009B041B /* btn_switch_big1.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B1B199AE47D009B041B /* btn_switch_big1.png */; };
+		D8909B2A199AE47D009B041B /* btn_switch_big1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B1C199AE47D009B041B /* btn_switch_big1@2x.png */; };
+		D8909B2B199AE47D009B041B /* btn_switch_big2.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B1D199AE47D009B041B /* btn_switch_big2.png */; };
+		D8909B2C199AE47D009B041B /* btn_switch_big2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B1E199AE47D009B041B /* btn_switch_big2@2x.png */; };
+		D8909B33199AF688009B041B /* btn_air.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B31199AF688009B041B /* btn_air.png */; };
+		D8909B34199AF688009B041B /* btn_air@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D8909B32199AF688009B041B /* btn_air@2x.png */; };
+		D8909B37199B08E4009B041B /* SHModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B36199B08E4009B041B /* SHModeViewController.m */; };
+		D8909B3A199B0900009B041B /* SHLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B39199B0900009B041B /* SHLightViewController.m */; };
+		D8909B3D199B0910009B041B /* SHCurtainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B3C199B0910009B041B /* SHCurtainViewController.m */; };
+		D8909B40199B091F009B041B /* SHAirViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B3F199B091F009B041B /* SHAirViewController.m */; };
+		D8909B43199B092C009B041B /* SHMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8909B42199B092C009B041B /* SHMusicViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -236,6 +255,30 @@
 		D8909B01199A8A51009B041B /* setup_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup_box@2x.png"; sourceTree = "<group>"; };
 		D8909B0E199A8D61009B041B /* SHRoomMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHRoomMainViewController.h; sourceTree = "<group>"; };
 		D8909B0F199A8D61009B041B /* SHRoomMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHRoomMainViewController.m; sourceTree = "<group>"; };
+		D8909B13199AE47D009B041B /* btn_curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_curtain.png; sourceTree = "<group>"; };
+		D8909B14199AE47D009B041B /* btn_curtain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_curtain@2x.png"; sourceTree = "<group>"; };
+		D8909B15199AE47D009B041B /* btn_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_light.png; sourceTree = "<group>"; };
+		D8909B16199AE47D009B041B /* btn_light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_light@2x.png"; sourceTree = "<group>"; };
+		D8909B17199AE47D009B041B /* btn_mode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_mode.png; sourceTree = "<group>"; };
+		D8909B18199AE47D009B041B /* btn_mode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_mode@2x.png"; sourceTree = "<group>"; };
+		D8909B19199AE47D009B041B /* btn_music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_music.png; sourceTree = "<group>"; };
+		D8909B1A199AE47D009B041B /* btn_music@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_music@2x.png"; sourceTree = "<group>"; };
+		D8909B1B199AE47D009B041B /* btn_switch_big1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_big1.png; sourceTree = "<group>"; };
+		D8909B1C199AE47D009B041B /* btn_switch_big1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_switch_big1@2x.png"; sourceTree = "<group>"; };
+		D8909B1D199AE47D009B041B /* btn_switch_big2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_big2.png; sourceTree = "<group>"; };
+		D8909B1E199AE47D009B041B /* btn_switch_big2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_switch_big2@2x.png"; sourceTree = "<group>"; };
+		D8909B31199AF688009B041B /* btn_air.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_air.png; sourceTree = "<group>"; };
+		D8909B32199AF688009B041B /* btn_air@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_air@2x.png"; sourceTree = "<group>"; };
+		D8909B35199B08E4009B041B /* SHModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHModeViewController.h; sourceTree = "<group>"; };
+		D8909B36199B08E4009B041B /* SHModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHModeViewController.m; sourceTree = "<group>"; };
+		D8909B38199B0900009B041B /* SHLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHLightViewController.h; sourceTree = "<group>"; };
+		D8909B39199B0900009B041B /* SHLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHLightViewController.m; sourceTree = "<group>"; };
+		D8909B3B199B0910009B041B /* SHCurtainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHCurtainViewController.h; sourceTree = "<group>"; };
+		D8909B3C199B0910009B041B /* SHCurtainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHCurtainViewController.m; sourceTree = "<group>"; };
+		D8909B3E199B091F009B041B /* SHAirViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHAirViewController.h; sourceTree = "<group>"; };
+		D8909B3F199B091F009B041B /* SHAirViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAirViewController.m; sourceTree = "<group>"; };
+		D8909B41199B092C009B041B /* SHMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMusicViewController.h; sourceTree = "<group>"; };
+		D8909B42199B092C009B041B /* SHMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMusicViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +342,16 @@
 				D8909AD8199A5CA0009B041B /* SHPassWordSettingViewController.m */,
 				D8909B0E199A8D61009B041B /* SHRoomMainViewController.h */,
 				D8909B0F199A8D61009B041B /* SHRoomMainViewController.m */,
+				D8909B35199B08E4009B041B /* SHModeViewController.h */,
+				D8909B36199B08E4009B041B /* SHModeViewController.m */,
+				D8909B38199B0900009B041B /* SHLightViewController.h */,
+				D8909B39199B0900009B041B /* SHLightViewController.m */,
+				D8909B3B199B0910009B041B /* SHCurtainViewController.h */,
+				D8909B3C199B0910009B041B /* SHCurtainViewController.m */,
+				D8909B3E199B091F009B041B /* SHAirViewController.h */,
+				D8909B3F199B091F009B041B /* SHAirViewController.m */,
+				D8909B41199B092C009B041B /* SHMusicViewController.h */,
+				D8909B42199B092C009B041B /* SHMusicViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -306,6 +359,20 @@
 		D80BCCAD198A7DE900A0F4AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D8909B31199AF688009B041B /* btn_air.png */,
+				D8909B32199AF688009B041B /* btn_air@2x.png */,
+				D8909B13199AE47D009B041B /* btn_curtain.png */,
+				D8909B14199AE47D009B041B /* btn_curtain@2x.png */,
+				D8909B15199AE47D009B041B /* btn_light.png */,
+				D8909B16199AE47D009B041B /* btn_light@2x.png */,
+				D8909B17199AE47D009B041B /* btn_mode.png */,
+				D8909B18199AE47D009B041B /* btn_mode@2x.png */,
+				D8909B19199AE47D009B041B /* btn_music.png */,
+				D8909B1A199AE47D009B041B /* btn_music@2x.png */,
+				D8909B1B199AE47D009B041B /* btn_switch_big1.png */,
+				D8909B1C199AE47D009B041B /* btn_switch_big1@2x.png */,
+				D8909B1D199AE47D009B041B /* btn_switch_big2.png */,
+				D8909B1E199AE47D009B041B /* btn_switch_big2@2x.png */,
 				D8909AF6199A8A51009B041B /* btn_active_normal.png */,
 				D8909AF7199A8A51009B041B /* btn_active_normal@2x.png */,
 				D8909AF8199A8A51009B041B /* btn_active_pressed.png */,
@@ -541,7 +608,10 @@
 			files = (
 				D8909AE9199A5E96009B041B /* bg_arrow@2x.png in Resources */,
 				D8909AF5199A5E96009B041B /* sys_setup_box@2x.png in Resources */,
+				D8909B27199AE47D009B041B /* btn_music.png in Resources */,
 				D84E061D198DFCCC00725BFF /* login_input_box_focused.png in Resources */,
+				D8909B23199AE47D009B041B /* btn_light.png in Resources */,
+				D8909B33199AF688009B041B /* btn_air.png in Resources */,
 				D80C25C8198A7C1C006746A4 /* InfoPlist.strings in Resources */,
 				D8909AE8199A5E96009B041B /* bg_arrow.png in Resources */,
 				D84E0616198DF9A000725BFF /* btn_login_iphone_pressed@2x.png in Resources */,
@@ -553,23 +623,28 @@
 				D80BCCC7198A7E2000A0F4AE /* btn_commit_pressed@2x.png in Resources */,
 				D80BCCC5198A7E2000A0F4AE /* btn_commit_normal@2x.png in Resources */,
 				D8909AD4199A55AD009B041B /* network_connected@2x.png in Resources */,
+				D8909B28199AE47D009B041B /* btn_music@2x.png in Resources */,
 				D84E0614198DF9A000725BFF /* btn_login_iphone_normal@2x.png in Resources */,
 				D8346BA9199A4CEE0083C9FE /* btn_return.png in Resources */,
 				D84E0613198DF9A000725BFF /* btn_login_iphone_normal.png in Resources */,
+				D8909B2C199AE47D009B041B /* btn_switch_big2@2x.png in Resources */,
 				D84E061E198DFCCC00725BFF /* login_input_box_focused@2x.png in Resources */,
 				D80BCCCC198A7E2000A0F4AE /* input_box_focused@2x.png in Resources */,
 				D80BCCCA198A7E2000A0F4AE /* Default@2x.png in Resources */,
 				D8909B0B199A8A51009B041B /* input_box_iphone@2x.png in Resources */,
 				D8909B03199A8A51009B041B /* btn_active_normal@2x.png in Resources */,
 				D8909AEC199A5E96009B041B /* btn_close_normal.png in Resources */,
+				D8909B21199AE47D009B041B /* btn_curtain.png in Resources */,
 				D83F35DF1990D2B800FE5969 /* line_iphone.png in Resources */,
 				D8909AD0199A55AD009B041B /* btn_return_pressed@2x.png in Resources */,
 				D80BCCCF198A7E2000A0F4AE /* topbar_bg.png in Resources */,
+				D8909B34199AF688009B041B /* btn_air@2x.png in Resources */,
 				D80C25D0198A7C1C006746A4 /* Images.xcassets in Resources */,
 				D83F35E11990D2B800FE5969 /* list_bg_iphone.png in Resources */,
 				D8909AEB199A5E96009B041B /* bg_setup_line@2x.png in Resources */,
 				D8909AF2199A5E96009B041B /* btn_switch_2.png in Resources */,
 				D8909ACF199A55AD009B041B /* btn_return_pressed.png in Resources */,
+				D8909B24199AE47D009B041B /* btn_light@2x.png in Resources */,
 				D8909B09199A8A51009B041B /* btn_cancel_pressed@2x.png in Resources */,
 				D8909AF1199A5E96009B041B /* btn_switch_1@2x.png in Resources */,
 				D8909B06199A8A51009B041B /* btn_cancel_normal.png in Resources */,
@@ -579,11 +654,13 @@
 				D84E061F198DFCCC00725BFF /* login_input_box.png in Resources */,
 				D84E0620198DFCCC00725BFF /* login_input_box@2x.png in Resources */,
 				D8909AEE199A5E96009B041B /* btn_close_pressed.png in Resources */,
+				D8909B26199AE47D009B041B /* btn_mode@2x.png in Resources */,
 				D8909B07199A8A51009B041B /* btn_cancel_normal@2x.png in Resources */,
 				D8909AD1199A55AD009B041B /* btn_setup_pressed.png in Resources */,
 				D83F35E01990D2B800FE5969 /* line_iphone@2x.png in Resources */,
 				D8909AEA199A5E96009B041B /* bg_setup_line.png in Resources */,
 				D8346BAC199A4CEE0083C9FE /* btn_setup@2x.png in Resources */,
+				D8909B2A199AE47D009B041B /* btn_switch_big1@2x.png in Resources */,
 				D80BCCD0198A7E2000A0F4AE /* topbar_bg@2x.png in Resources */,
 				D8909AF3199A5E96009B041B /* btn_switch_2@2x.png in Resources */,
 				D80BCCCD198A7E2000A0F4AE /* input_box.png in Resources */,
@@ -591,7 +668,9 @@
 				D8346BAA199A4CEE0083C9FE /* btn_return@2x.png in Resources */,
 				D8346BAB199A4CEE0083C9FE /* btn_setup.png in Resources */,
 				D80BCCC9198A7E2000A0F4AE /* Default.png in Resources */,
+				D8909B22199AE47D009B041B /* btn_curtain@2x.png in Resources */,
 				D8909AD2199A55AD009B041B /* btn_setup_pressed@2x.png in Resources */,
+				D8909B29199AE47D009B041B /* btn_switch_big1.png in Resources */,
 				D80BCCC4198A7E2000A0F4AE /* btn_commit_normal.png in Resources */,
 				D80BCCCB198A7E2000A0F4AE /* input_box_focused.png in Resources */,
 				D8909AED199A5E96009B041B /* btn_close_normal@2x.png in Resources */,
@@ -601,9 +680,11 @@
 				D80BCCCE198A7E2000A0F4AE /* input_box@2x.png in Resources */,
 				D84E0618198DF9A000725BFF /* login_box_iphone@2x.png in Resources */,
 				D80BCCC1198A7E2000A0F4AE /* bg@2x.png in Resources */,
+				D8909B2B199AE47D009B041B /* btn_switch_big2.png in Resources */,
 				D8909AEF199A5E96009B041B /* btn_close_pressed@2x.png in Resources */,
 				D80BCCC2198A7E2000A0F4AE /* box_bg.png in Resources */,
 				D8909AD3199A55AD009B041B /* network_connected.png in Resources */,
+				D8909B25199AE47D009B041B /* btn_mode.png in Resources */,
 				D83F35DE1990D2B800FE5969 /* arrow_iphone@2x.png in Resources */,
 				D8909AD5199A55AD009B041B /* network_disconnected.png in Resources */,
 				D8909B08199A8A51009B041B /* btn_cancel_pressed.png in Resources */,
@@ -626,16 +707,21 @@
 				D80BCCEE198A7E7400A0F4AE /* SHCurtainModel.m in Sources */,
 				D80BCCE1198A7E6800A0F4AE /* TFHppleElement.m in Sources */,
 				D8909AC6199A54B3009B041B /* SHSettingsViewController.m in Sources */,
+				D8909B3D199B0910009B041B /* SHCurtainViewController.m in Sources */,
 				D80BCCE2198A7E6800A0F4AE /* XPathQuery.m in Sources */,
 				D80BCCE0198A7E6800A0F4AE /* TFHpple.m in Sources */,
+				D8909B3A199B0900009B041B /* SHLightViewController.m in Sources */,
 				D8909B10199A8D61009B041B /* SHRoomMainViewController.m in Sources */,
 				D80BCCF1198A7E7400A0F4AE /* SHRoomModel.m in Sources */,
+				D8909B37199B08E4009B041B /* SHModeViewController.m in Sources */,
 				D80BCCF0198A7E7400A0F4AE /* SHModeModel.m in Sources */,
 				D80BCCD6198A7E5600A0F4AE /* GCDAsyncSocket.m in Sources */,
 				D8909AD9199A5CA0009B041B /* SHPassWordSettingViewController.m in Sources */,
 				D84E060C198DF54F00725BFF /* SHRoomsListViewController.m in Sources */,
 				D80C25CE198A7C1C006746A4 /* AppDelegate.m in Sources */,
 				D80BCCFA198A7E8500A0F4AE /* SHParentViewController.m in Sources */,
+				D8909B43199B092C009B041B /* SHMusicViewController.m in Sources */,
+				D8909B40199B091F009B041B /* SHAirViewController.m in Sources */,
 				D80BCCFD198A7EF000A0F4AE /* SHConfigFile.m in Sources */,
 				D80BCCEF198A7E7400A0F4AE /* SHLightModel.m in Sources */,
 				D83F35D61990CF1000FE5969 /* SHRoomCell.m in Sources */,
