@@ -7,6 +7,7 @@
 //
 
 #import "SHModeViewController.h"
+#define Button_Base_Tag 1000
 
 @interface SHModeViewController ()
 
@@ -18,7 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -26,24 +27,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, 320.0, self.contentView.frame.size.height - 20.0)];
+    [scrollView setBackgroundColor:[UIColor clearColor]];
+    [scrollView setContentSize:CGSizeMake(320.0, 10 + self.modes.count * 90)];
+    [scrollView setShowsVerticalScrollIndicator:NO];
+    [self.contentView addSubview:scrollView];
+    
+    for (int i = 0; i < self.modes.count; i++) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 10 + 90*i, 284.0, 77.0)];
+        [button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"btn_mode_%d", i + 1]] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"btn_mode_%d_pressed", i + 1]] forState:UIControlStateHighlighted];
+        [button setTag:Button_Base_Tag + i];
+        [scrollView addSubview:button];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

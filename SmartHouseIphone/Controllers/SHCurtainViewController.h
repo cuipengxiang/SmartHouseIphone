@@ -7,7 +7,14 @@
 //
 
 #import "SHParentViewController.h"
+#import "SHCurtainModel.h"
 
 @interface SHCurtainViewController : SHParentViewController
+{
+    UIScrollView *scrollView;
+}
+
+@property (nonatomic, strong)NSArray *curtains;
+@property (nonatomic, strong)NSMutableArray *curtainViews;
 
 @end

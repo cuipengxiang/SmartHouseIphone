@@ -7,7 +7,10 @@
 //
 
 #import "SHParentViewController.h"
+#import "SHAirConditioningModel.h"
 
 @interface SHAirViewController : SHParentViewController
+
+@property (nonatomic, strong)NSArray *airs;
 
 @end

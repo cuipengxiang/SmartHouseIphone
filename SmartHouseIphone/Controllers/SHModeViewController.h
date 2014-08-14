@@ -7,7 +7,10 @@
 //
 
 #import "SHParentViewController.h"
+#import "SHModeModel.h"
 
 @interface SHModeViewController : SHParentViewController
+
+@property (nonatomic, strong)NSArray *modes;
 
 @end

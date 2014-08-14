@@ -7,7 +7,14 @@
 //
 
 #import "SHParentViewController.h"
+#import "SHLightModel.h"
 
-@interface SHLightViewController : SHParentViewController
+@interface SHLightViewController : SHParentViewController<UIScrollViewDelegate>
+{
+    UIScrollView *scrollView;
+}
+
+@property (nonatomic, strong)NSArray *lights;
+@property (nonatomic, strong)NSMutableArray *lightViews;
 
 @end
