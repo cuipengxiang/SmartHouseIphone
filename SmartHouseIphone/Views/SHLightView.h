@@ -17,6 +17,8 @@
     UIButton *higher;
     UIButton *lower;
     UIView *degreeView;
+    NSMutableArray *degreeBlocks;
+    int currentDegree;
 }
 
 @property (nonatomic, strong)SHLightModel *model;

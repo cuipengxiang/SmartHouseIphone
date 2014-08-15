@@ -10,5 +10,13 @@
 
 
 @interface SHMusicViewController : SHParentViewController
+{
+    UIScrollView *musicScrollView;
+    UIView *selectedView;
+    NSMutableArray *selectedBlocks;
+}
+
+@property (nonatomic, strong)NSArray *musics;
+@property (nonatomic, strong)NSMutableArray *musicViews;
 
 @end

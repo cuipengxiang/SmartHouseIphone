@@ -10,7 +10,13 @@
 #import "SHAirConditioningModel.h"
 
 @interface SHAirViewController : SHParentViewController
+{
+    UIScrollView *airScrollView;
+    UIView *selectedView;
+    NSMutableArray *selectedBlocks;
+}
 
 @property (nonatomic, strong)NSArray *airs;
+@property (nonatomic, strong)NSMutableArray *airViews;
 
 @end

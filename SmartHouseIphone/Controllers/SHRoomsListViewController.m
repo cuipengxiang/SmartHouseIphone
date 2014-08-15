@@ -8,8 +8,8 @@
 
 #import "SHRoomsListViewController.h"
 #import "SHRoomCell.h"
-#import "SHSettingsViewController.h"
 #import "SHRoomMainViewController.h"
+#import "SHSettingsViewController.h"
 
 @interface SHRoomsListViewController ()
 

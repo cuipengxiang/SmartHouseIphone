@@ -7,6 +7,7 @@
 //
 
 #import "SHCurtainViewController.h"
+#import "SHSettingsViewController.h"
 
 @interface SHCurtainViewController ()
 
@@ -26,7 +27,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
+    
+    UIButton *settingButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [settingButton setBackgroundImage:[UIImage imageNamed:@"btn_setup"] forState:UIControlStateNormal];
+    [settingButton addTarget:self action:@selector(onSettingButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+    NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
+    [self.navigationItem setRightBarButtonItems:rightButtons];
+}
+
+- (void)onSettingButtonClicked
+{
+    SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:settingController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -7,12 +7,12 @@
 //
 
 #import "SHRoomMainViewController.h"
-#import "SHSettingsViewController.h"
 #import "SHModeViewController.h"
 #import "SHLightViewController.h"
 #import "SHCurtainViewController.h"
 #import "SHAirViewController.h"
 #import "SHMusicViewController.h"
+#import "SHSettingsViewController.h"
 
 @interface SHRoomMainViewController ()
 
@@ -48,7 +48,7 @@
     } else {
         imagename = @"btn_switch_big1";
     }
-    self.networkButton = [[UIButton alloc] initWithFrame:CGRectMake(75.0, 30.0, 170.0, 42.0)];
+    self.networkButton = [[UIButton alloc] initWithFrame:CGRectMake(75.0, 25.0, 170.0, 42.0)];
     [self.networkButton setBackgroundImage:[UIImage imageNamed:imagename] forState:UIControlStateNormal];
     [self.networkButton addTarget:self action:@selector(onNetworkClick) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.networkButton];
@@ -87,7 +87,7 @@
 
     for (int i = 0; i < buttons.count; i++) {
         UIButton *button = [buttons objectAtIndex:i];
-        [button setFrame:CGRectMake(57.0 + i%2*120.0, 100.0 + i/2*125.0, 86.0, 89.0)];
+        [button setFrame:CGRectMake(60.0 + i%2*114.0, 90.0 + i/2*110.0, 86.0, 89.0)];
         [self.contentView addSubview:button];
     }
 }

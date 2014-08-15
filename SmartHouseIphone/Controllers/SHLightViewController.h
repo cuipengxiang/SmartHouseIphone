@@ -11,7 +11,9 @@
 
 @interface SHLightViewController : SHParentViewController<UIScrollViewDelegate>
 {
-    UIScrollView *scrollView;
+    UIScrollView *lightScrollView;
+    UIView *selectedView;
+    NSMutableArray *selectedBlocks;
 }
 
 @property (nonatomic, strong)NSArray *lights;

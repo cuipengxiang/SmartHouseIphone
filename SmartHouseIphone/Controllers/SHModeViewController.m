@@ -7,6 +7,7 @@
 //
 
 #import "SHModeViewController.h"
+#import "SHSettingsViewController.h"
 #define Button_Base_Tag 1000
 
 @interface SHModeViewController ()
@@ -29,6 +30,13 @@
     [super viewDidLoad];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
+    UIButton *settingButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [settingButton setBackgroundImage:[UIImage imageNamed:@"btn_setup"] forState:UIControlStateNormal];
+    [settingButton addTarget:self action:@selector(onSettingButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+    NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
+    [self.navigationItem setRightBarButtonItems:rightButtons];
+    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, 320.0, self.contentView.frame.size.height - 20.0)];
     [scrollView setBackgroundColor:[UIColor clearColor]];
     [scrollView setContentSize:CGSizeMake(320.0, 10 + self.modes.count * 90)];
@@ -42,6 +50,12 @@
         [button setTag:Button_Base_Tag + i];
         [scrollView addSubview:button];
     }
+}
+
+- (void)onSettingButtonClicked
+{
+    SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:settingController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -11,7 +11,9 @@
 
 @interface SHCurtainViewController : SHParentViewController
 {
-    UIScrollView *scrollView;
+    UIScrollView *curtainScrollView;
+    UIView *selectedView;
+    NSMutableArray *selectedBlocks;
 }
 
 @property (nonatomic, strong)NSArray *curtains;
