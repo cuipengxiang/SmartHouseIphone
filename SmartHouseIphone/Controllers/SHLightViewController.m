@@ -41,6 +41,7 @@
         SHLightView *lightView = [[SHLightView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 400.0) andModel:[self.lights objectAtIndex:i]];
         [scrollView addSubview:lightView];
     }
+    
 }
 
 - (void)didReceiveMemoryWarning

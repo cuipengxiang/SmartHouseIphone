@@ -10,6 +10,14 @@
 #import "SHLightModel.h"
 
 @interface SHLightView : UIView
+{
+    UILabel *titleLabel;
+    UIImageView *lightImageView;
+    UIButton *on_off;
+    UIButton *higher;
+    UIButton *lower;
+    UIView *degreeView;
+}
 
 @property (nonatomic, strong)SHLightModel *model;
 
