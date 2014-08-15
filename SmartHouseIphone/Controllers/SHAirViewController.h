@@ -9,7 +9,7 @@
 #import "SHParentViewController.h"
 #import "SHAirConditioningModel.h"
 
-@interface SHAirViewController : SHParentViewController
+@interface SHAirViewController : SHParentViewController<UIScrollViewDelegate>
 {
     UIScrollView *airScrollView;
     UIView *selectedView;

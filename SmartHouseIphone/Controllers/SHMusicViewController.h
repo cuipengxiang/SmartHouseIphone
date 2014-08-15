@@ -9,7 +9,7 @@
 #import "SHParentViewController.h"
 
 
-@interface SHMusicViewController : SHParentViewController
+@interface SHMusicViewController : SHParentViewController<UIScrollViewDelegate>
 {
     UIScrollView *musicScrollView;
     UIView *selectedView;

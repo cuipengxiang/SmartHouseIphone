@@ -37,7 +37,7 @@
     NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtons];
     
-    lightScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 400.0)];
+    lightScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 380.0)];
     [lightScrollView setContentSize:CGSizeMake(320.0*self.lights.count, 380.0)];
     [lightScrollView setBackgroundColor:[UIColor clearColor]];
     [lightScrollView setPagingEnabled:YES];
@@ -45,20 +45,16 @@
     [lightScrollView setShowsHorizontalScrollIndicator:NO];
     [self.contentView addSubview:lightScrollView];
     
-    NSLog(@"%f", self.contentView.frame.size.height);
-    
     selectedBlocks = [[NSMutableArray alloc] init];
-    selectedView = [[UIView alloc] initWithFrame:CGRectMake((320.0 - (27.0*self.lights.count-10))/2, 380 + (self.contentView.frame.size.height - 380 - 20)/2, 27.0*self.lights.count-10, 20.0)];
+    selectedView = [[UIView alloc] initWithFrame:CGRectMake((320.0 - (15.0*self.lights.count-5))/2, 380 + (self.contentView.frame.size.height - 380 - 10)/2, 15.0*self.lights.count-5, 10.0)];
     [selectedView setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:selectedView];
-    
-    NSLog(@"%f", selectedView.frame.origin.y);
     
     for (int i = 0; i < self.lights.count; i++) {
         SHLightView *lightView = [[SHLightView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 380.0) andModel:[self.lights objectAtIndex:i]];
         [lightScrollView addSubview:lightView];
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*27.0, 1.0, 17.0, 17.0)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*15.0, 0.0, 10.0, 10.0)];
         if (i == 0) {
             [imageView setImage:[UIImage imageNamed:@"selected"]];
         } else {

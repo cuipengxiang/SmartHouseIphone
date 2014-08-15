@@ -9,7 +9,7 @@
 #import "SHParentViewController.h"
 #import "SHCurtainModel.h"
 
-@interface SHCurtainViewController : SHParentViewController
+@interface SHCurtainViewController : SHParentViewController<UIScrollViewDelegate>
 {
     UIScrollView *curtainScrollView;
     UIView *selectedView;

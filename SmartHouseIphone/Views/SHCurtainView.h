@@ -10,5 +10,16 @@
 #import "SHCurtainModel.h"
 
 @interface SHCurtainView : UIView
+{
+    UILabel *titleLabel;
+    UIImageView *curtainImageView;
+    UIButton *openButton;
+    UIButton *closeButton;
+    UIButton *stopButton;
+}
+
+@property (nonatomic, strong)SHCurtainModel *model;
+
+- (id)initWithFrame:(CGRect)frame andModel:(SHCurtainModel *)model;
 
 @end
