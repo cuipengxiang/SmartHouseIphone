@@ -10,5 +10,27 @@
 #import "SHAirConditioningModel.h"
 
 @interface SHAirView : UIView
+{
+    Boolean skip;
+    UILabel *titleLabel;
+    UIButton *on_off;
+    UIView *modeView;
+    UIView *speedView;
+    UIView *tempView;
+    UIButton *tempSubButton;
+    UIButton *tempAddButton;
+    UIButton *settingButton;
+    UILabel *label_indoor;
+    UILabel *temp_mini;
+    UILabel *temp_big;
+    UILabel *tempsysbol;
+}
+
+@property (nonatomic, strong)SHAirConditioningModel *model;
+@property (nonatomic)int currentMode;
+@property (nonatomic)int currentSpeed;
+@property (nonatomic)int currentTemp;
+
+- (id)initWithFrame:(CGRect)frame andModel:(SHAirConditioningModel *)model;
 
 @end

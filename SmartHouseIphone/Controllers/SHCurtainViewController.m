@@ -63,6 +63,8 @@
         [selectedBlocks addObject:imageView];
         [selectedView addSubview:imageView];
     }
+    
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

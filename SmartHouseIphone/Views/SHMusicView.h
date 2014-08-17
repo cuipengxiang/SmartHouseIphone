@@ -10,5 +10,12 @@
 #import "SHMusicModel.h"
 
 @interface SHMusicView : UIView
+{
+    UILabel *titleLabel;
+}
+
+@property (nonatomic, strong)SHMusicModel *model;
+
+- (id)initWithFrame:(CGRect)frame andModel:(SHMusicModel *)model;
 
 @end
