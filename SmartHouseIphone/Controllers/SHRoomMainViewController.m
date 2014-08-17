@@ -142,6 +142,7 @@
 - (void)onMusicButtonClicked
 {
     SHMusicViewController *musicController = [[SHMusicViewController alloc] initWithNibName:nil bundle:nil];
+    musicController.musics = self.model.musics;
     [self.navigationController pushViewController:musicController animated:YES];
 }
 

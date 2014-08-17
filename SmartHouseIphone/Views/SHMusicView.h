@@ -12,6 +12,12 @@
 @interface SHMusicView : UIView
 {
     UILabel *titleLabel;
+    UIButton *startButton;
+    UIButton *pauseButton;
+    UIButton *volHigherButton;
+    UIButton *volLowerButton;
+    
+    NSMutableArray *customButtons;
 }
 
 @property (nonatomic, strong)SHMusicModel *model;

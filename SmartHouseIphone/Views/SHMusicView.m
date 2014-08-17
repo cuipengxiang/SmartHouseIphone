@@ -7,16 +7,90 @@
 //
 
 #import "SHMusicView.h"
+#import "SHMusicButtonModel.h"
 
 @implementation SHMusicView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andModel:(SHMusicModel *)model
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        self.model = model;
+        customButtons = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64.5, 20.0, 191.0, 37.0)];
+    [titleLabel setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]]];
+    [titleLabel setFont:[UIFont systemFontOfSize:16.0]];
+    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [titleLabel setTextColor:[UIColor whiteColor]];
+    [titleLabel setText:self.model.name];
+    [self addSubview:titleLabel];
+    
+    startButton = [[UIButton alloc] initWithFrame:CGRectMake(40.0, 100.0, 45.0, 45.0)];
+    [startButton setImage:[UIImage imageNamed:@"mbtn_play"] forState:UIControlStateNormal];
+    [startButton setImage:[UIImage imageNamed:@"mbtn_play_pressed"] forState:UIControlStateHighlighted];
+    [startButton addTarget:self action:@selector(onStartButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:startButton];
+    
+    pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(105.0, 100.0, 45.0, 45.0)];
+    [pauseButton setImage:[UIImage imageNamed:@"mbtn_pause"] forState:UIControlStateNormal];
+    [pauseButton setImage:[UIImage imageNamed:@"mbtn_pause_pressed"] forState:UIControlStateHighlighted];
+    [pauseButton addTarget:self action:@selector(onPauseButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:pauseButton];
+    
+    volHigherButton = [[UIButton alloc] initWithFrame:CGRectMake(170.0, 100.0, 45.0, 45.0)];
+    [volHigherButton setImage:[UIImage imageNamed:@"mbtn_vol_high"] forState:UIControlStateNormal];
+    [volHigherButton setImage:[UIImage imageNamed:@"mbtn_vol_high_pressed"] forState:UIControlStateHighlighted];
+    [volHigherButton addTarget:self action:@selector(onVolHighButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:volHigherButton];
+    
+    volLowerButton = [[UIButton alloc] initWithFrame:CGRectMake(235.0, 100.0, 45.0, 45.0)];
+    [volLowerButton setImage:[UIImage imageNamed:@"mbtn_vol_low"] forState:UIControlStateNormal];
+    [volLowerButton setImage:[UIImage imageNamed:@"mbtn_vol_low_pressed"] forState:UIControlStateHighlighted];
+    [volLowerButton addTarget:self action:@selector(onVolLowButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:volLowerButton];
+    
+    for (int i = 0; i < self.model.buttons.count; i++) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(35.0 + i%3*92, 170.0 + i/3*45, 67, 25.0)];
+        [button setBackgroundImage:[UIImage imageNamed:@"mbtn_bg"] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithRed:0.278 green:0.271 blue:0.271 alpha:1] forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
+        [button setTitle:[[self.model.buttons objectAtIndex:i] name] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(onCustomButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [customButtons addObject:button];
+        [self addSubview:button];
+    }
+}
+
+- (void)onStartButtonClicked
+{
+    
+}
+
+- (void)onPauseButtonClicked
+{
+    
+}
+
+- (void)onVolHighButtonClicked
+{
+    
+}
+
+- (void)onVolLowButtonClicked
+{
+    
+}
+
+- (void)onCustomButtonClicked:(UIButton *)button
+{
+    int index = [customButtons indexOfObject:button];
+    NSString *cmd = [[self.model.buttons objectAtIndex:index] command];
 }
 
 @end
