@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SHAirConditioningModel.h"
+#import "AppDelegate.h"
 
 @interface SHAirView : UIView
 {
@@ -30,7 +31,9 @@
 @property (nonatomic)int currentSpeed;
 @property (nonatomic)int currentTemp;
 @property (nonatomic)BOOL skip;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHAirConditioningModel *)model;
+- (void)setCurrentStatus:(NSMutableString *)status;
 
 @end

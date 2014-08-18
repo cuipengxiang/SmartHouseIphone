@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SHLightModel.h"
+#import "AppDelegate.h"
 
 @interface SHLightView : UIView
 {
@@ -22,6 +23,7 @@
 }
 
 @property (nonatomic, strong)SHLightModel *model;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHLightModel *)model;
 - (void)setLightDegree:(int)degree;

@@ -17,6 +17,7 @@
     if (self) {
         self.model = model;
         customButtons = [[NSMutableArray alloc] init];
+        self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -69,28 +70,55 @@
 
 - (void)onStartButtonClicked
 {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", @"start"];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)onPauseButtonClicked
 {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", @"pause"];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)onVolHighButtonClicked
 {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", @"volhigh"];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)onVolLowButtonClicked
 {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", @"vollow"];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)onCustomButtonClicked:(UIButton *)button
 {
     int index = [customButtons indexOfObject:button];
     NSString *cmd = [[self.model.buttons objectAtIndex:index] command];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", cmd];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 @end

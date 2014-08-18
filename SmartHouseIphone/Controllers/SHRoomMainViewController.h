@@ -10,9 +10,6 @@
 #import "SHRoomModel.h"
 
 @interface SHRoomMainViewController : SHParentViewController<GCDAsyncSocketDelegate>
-{
-    NSString *netImageName;
-}
 
 @property (nonatomic, strong)SHRoomModel *model;
 @property (nonatomic, strong)UIButton *networkButton;

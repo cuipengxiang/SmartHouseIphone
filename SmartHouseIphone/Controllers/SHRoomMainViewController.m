@@ -43,13 +43,12 @@
     
     self.networkButton = [[UIButton alloc] initWithFrame:CGRectMake(75.0, 25.0, 170.0, 42.0)];
     [self.networkButton addTarget:self action:@selector(onNetworkClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:self.networkButton];
     if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
-        netImageName = @"btn_switch_big1";
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big1"] forState:UIControlStateNormal];
     } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
-        netImageName = @"btn_switch_big2";
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big2"] forState:UIControlStateNormal];
     }
-    //[self.networkButton setBackgroundImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
+    [self.contentView addSubview:self.networkButton];
     
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     if ((self.model.modes)&&(self.model.modes.count > 0)) {
@@ -90,23 +89,19 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    if ([netImageName isEqualToString:@"btn_switch_big1"]) {
-        self.appDelegate.host = self.appDelegate.host2;
-        netImageName = @"btn_switch_big2";
-    } else if ([netImageName isEqualToString:@"btn_switch_big2"]){
-        self.appDelegate.host = self.appDelegate.host1;
-        netImageName = @"btn_switch_big1";
-    }
-    [self.networkButton setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO];
     
     [self setNetworkState:self.appDelegate.currentNetworkState];
+    
+    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big1"] forState:UIControlStateNormal];
+        [self.networkButton setTitle:@"btn_switch_big1" forState:UIControlStateNormal];
+    } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big2"] forState:UIControlStateNormal];
+        [self.networkButton setTitle:@"btn_switch_big2" forState:UIControlStateNormal];
+    }
     
     if (self.roomMainQueryThread) {
         self.roomMainQueryThread = nil;
@@ -119,14 +114,13 @@
 
 - (void)onNetworkClick
 {
-    if ([netImageName isEqualToString:@"btn_switch_big1"]) {
+    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
         self.appDelegate.host = self.appDelegate.host2;
-        netImageName = @"btn_switch_big2";
-    } else if ([netImageName isEqualToString:@"btn_switch_big2"]){
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big2"] forState:UIControlStateNormal];
+    } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
         self.appDelegate.host = self.appDelegate.host1;
-        netImageName = @"btn_switch_big1";
+        [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big1"] forState:UIControlStateNormal];
     }
-    [self.networkButton setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
     [[NSUserDefaults standardUserDefaults] setObject:self.appDelegate.host forKey:@"host"];
 }
 

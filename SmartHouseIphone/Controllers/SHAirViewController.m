@@ -76,9 +76,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    int currentPage = floor((scrollView.contentOffset.x - scrollView.frame.size.width / 2) / scrollView.frame.size.width) + 1;
+    self.currentPage = floor((scrollView.contentOffset.x - scrollView.frame.size.width / 2) / scrollView.frame.size.width) + 1;
     for (int i = 0; i < self.airs.count; i++) {
-        if (i == currentPage) {
+        if (i == self.currentPage) {
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"selected"]];
         } else {
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"unselected"]];
@@ -104,17 +104,14 @@
 - (void)queryMode:(NSThread *)thread
 {
     while ([[NSThread currentThread] isCancelled] == NO) {
-        if (!skip) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
-                NSError *error;
-                GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
-                socket.command = [NSString stringWithFormat:@"*aircreply %@,%@\r\n", [[self.airs objectAtIndex:self.currentPage] mainaddr], [[self.airs objectAtIndex:self.currentPage] secondaryaddr]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+            NSError *error;
+            GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+            socket.command = [NSString stringWithFormat:@"*aircreply %@,%@\r\n", [[self.airs objectAtIndex:self.currentPage] mainaddr], [[self.airs objectAtIndex:self.currentPage] secondaryaddr]];
+            socket.type = self.currentPage;
                 [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
-            });
-        } else {
-            skip = NO;
-        }
-        sleep(4);
+        });
+    sleep(5);
     }
     [NSThread exit];
 }
@@ -151,16 +148,38 @@
     }
     NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
     NSString *msg = [[NSString alloc] initWithData:strData encoding:NSUTF8StringEncoding];
-    
-    NSArray *arrayTemp = [msg arrayOfCaptureComponentsMatchedByRegex:@"T\\[(.+?)\\]"];
-    if ((arrayTemp)&&(arrayTemp.count > 0)) {
-        int brightness = [[[arrayTemp objectAtIndex:0] objectAtIndex:1] integerValue]/10;
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (sock.type >= 0) {
-                //[[self.airViews objectAtIndex:sock.type] setLightDegree:brightness];
-            }
-        });
+    NSArray *arrayState = [msg arrayOfCaptureComponentsMatchedByRegex:@"State\\[(.+?)\\]"];
+    NSArray *arrayMode = [msg arrayOfCaptureComponentsMatchedByRegex:@"Mode\\[(.+?)\\]"];
+    NSArray *arraySpeed = [msg arrayOfCaptureComponentsMatchedByRegex:@"Size\\[(.+?)\\]"];
+    NSArray *arrayTemp = [msg arrayOfCaptureComponentsMatchedByRegex:@"Temp\\[(.+?)\\]"];
+    NSMutableString *status = [[NSMutableString alloc] initWithString:@""];
+    NSString *isOnNow;
+    NSString *currentSpeed;
+    NSString *currentMode;
+    NSString *currentTemp;
+    if ((arrayState)&&(arrayState.count > 0)) {
+        isOnNow = [[arrayState objectAtIndex:0] objectAtIndex:1];
+        [status appendString:isOnNow];
     }
+    if ((arrayMode)&&(arrayMode.count > 0)) {
+        currentMode = [[arrayMode objectAtIndex:0] objectAtIndex:1];
+        [status appendFormat:@"|%@", currentMode];
+    }
+    if ((arraySpeed)&&(arraySpeed.count > 0)) {
+        currentSpeed = [[arraySpeed objectAtIndex:0] objectAtIndex:1];
+        [status appendFormat:@"|%@", currentSpeed];
+    }
+    if ((arrayTemp)&&(arrayTemp.count > 0)) {
+        currentTemp = [[arrayTemp objectAtIndex:0] objectAtIndex:1];
+        [status appendFormat:@"|%@", currentTemp];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if (status.length > 0) {
+            [[self.airViews objectAtIndex:sock.type] setCurrentStatus:status];
+        }
+    });
+    
     [sock disconnect];
 }
 

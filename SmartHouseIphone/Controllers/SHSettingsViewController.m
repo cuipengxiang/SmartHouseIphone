@@ -91,10 +91,10 @@
 
 - (void)onNetworkClick
 {
-    if ([netImageName isEqualToString:@"btn_switch_1"]) {
+    if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]) {
         self.appDelegate.host = self.appDelegate.host1;
         netImageName = @"btn_switch_2";
-    } else if ([netImageName isEqualToString:@"btn_switch_2"]){
+    } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]){
         self.appDelegate.host = self.appDelegate.host2;
         netImageName = @"btn_switch_1";
     }

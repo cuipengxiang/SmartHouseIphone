@@ -10,6 +10,7 @@
 
 #define Mode_Button_Base_Tag 2000
 #define Speed_Button_Base_Tag 2000
+#define WIND_DIRECT 0
 
 @implementation SHAirView
 
@@ -22,7 +23,7 @@
         self.currentMode = -1;
         self.currentSpeed = -1;
         self.currentTemp = -1;
-        
+        self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -155,6 +156,7 @@
 
 - (void)switchButtonClicked:(UIButton *)sender
 {
+    self.skip = YES;
     if (sender.tag == 1) {
         [on_off setTag:0];
         [on_off setImage:[UIImage imageNamed:@"btn_switch_off_air"] forState:UIControlStateNormal];
@@ -208,6 +210,7 @@
 
 - (void)onSubButtonClicked
 {
+    self.skip = YES;
     if (self.currentTemp == -1) {
         self.currentTemp = 25;
     } else {
@@ -218,6 +221,7 @@
 
 - (void)onAddButtonClicked
 {
+    self.skip = YES;
     if (self.currentTemp == -1) {
         self.currentTemp = 25;
     } else {
@@ -244,6 +248,53 @@
         return;
     }
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d|%d|%d|%d", on_off.tag, self.currentMode, self.currentSpeed, self.currentTemp] forKey:[NSString stringWithFormat:@"air_state%@%@", self.model.mainaddr, self.model.secondaryaddr]];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        NSString *command = [NSString stringWithFormat:@"*aircset %@,%@,%d,%d,%d,%d,%d", self.model.mainaddr, self.model.secondaryaddr, on_off.tag, WIND_DIRECT, self.currentSpeed, self.currentMode, self.currentTemp];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", command];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
+}
+
+- (void)setCurrentStatus:(NSMutableString *)status
+{
+    if (self.skip) {
+        self.skip = NO;
+        return;
+    }
+    NSArray *stateArray = [status componentsSeparatedByString:@"|"];
+    if (stateArray.count != 4) {
+        return;
+    }
+    if ([[stateArray objectAtIndex:0] integerValue] == 1) {
+        [on_off setTag:1];
+        [on_off setImage:[UIImage imageNamed:@"btn_switch_on_air"] forState:UIControlStateNormal];
+    } else {
+        [on_off setTag:0];
+        [on_off setImage:[UIImage imageNamed:@"btn_switch_off_air"] forState:UIControlStateNormal];
+    }
+    
+    self.currentMode = [[stateArray objectAtIndex:1] integerValue];
+    [(UIButton *)[modeView viewWithTag:self.currentMode + Mode_Button_Base_Tag] setSelected:YES];
+    for (int i = 0; i < self.model.modes.count; i++) {
+        int tag = [self checkMode:[self.model.modes objectAtIndex:i]] + Mode_Button_Base_Tag;
+        if (tag != self.currentMode + Mode_Button_Base_Tag) {
+            [(UIButton *)[modeView viewWithTag:tag] setSelected:NO];
+        }
+    }
+    self.currentSpeed = [[stateArray objectAtIndex:2] integerValue];
+    [(UIButton *)[speedView viewWithTag:self.currentSpeed + Speed_Button_Base_Tag] setSelected:YES];
+    for (int i = 0; i < 3; i++) {
+        if (self.currentSpeed != i) {
+            [(UIButton *)[speedView viewWithTag:i + Speed_Button_Base_Tag] setSelected:NO];
+        }
+    }
+    self.currentTemp = [[stateArray objectAtIndex:3] integerValue];
+    [temp_big setText:[NSString stringWithFormat:@"%d", self.currentTemp]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:status forKey:[NSString stringWithFormat:@"air_state%@%@", self.model.mainaddr, self.model.secondaryaddr]];
 }
 
 @end

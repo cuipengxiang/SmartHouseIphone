@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SHCurtainModel.h"
+#import "AppDelegate.h"
 
 @interface SHCurtainView : UIView
 {
@@ -21,5 +22,6 @@
 @property (nonatomic, strong)SHCurtainModel *model;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHCurtainModel *)model;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end

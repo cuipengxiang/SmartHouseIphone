@@ -15,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.model = model;
+        self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -73,17 +74,34 @@
 {
     [curtainImageView setImage:[UIImage imageNamed:@"curtain_open"]];
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:[NSString stringWithFormat:@"curtain_state%@%@", self.model.area, self.model.channel]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", self.model.opencmd];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)closeButtonClicked
 {
     [curtainImageView setImage:[UIImage imageNamed:@"curtain_closed"]];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:[NSString stringWithFormat:@"curtain_state%@%@", self.model.area, self.model.channel]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", self.model.closecmd];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)stopButtonClicked
 {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", self.model.stopcmd];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 @end

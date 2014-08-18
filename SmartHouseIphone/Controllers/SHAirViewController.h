@@ -9,12 +9,11 @@
 #import "SHParentViewController.h"
 #import "SHAirConditioningModel.h"
 
-@interface SHAirViewController : SHParentViewController<UIScrollViewDelegate>
+@interface SHAirViewController : SHParentViewController<UIScrollViewDelegate, GCDAsyncSocketDelegate>
 {
     UIScrollView *airScrollView;
     UIView *selectedView;
     NSMutableArray *selectedBlocks;
-    BOOL skip;
 }
 
 @property (nonatomic, strong)NSArray *airs;

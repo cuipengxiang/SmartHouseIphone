@@ -9,7 +9,7 @@
 #import "SHParentViewController.h"
 
 
-@interface SHMusicViewController : SHParentViewController<UIScrollViewDelegate>
+@interface SHMusicViewController : SHParentViewController<UIScrollViewDelegate, GCDAsyncSocketDelegate>
 {
     UIScrollView *musicScrollView;
     UIView *selectedView;
@@ -19,6 +19,6 @@
 @property (nonatomic, strong)NSArray *musics;
 @property (nonatomic, strong)NSMutableArray *musicViews;
 @property (nonatomic)dispatch_queue_t socketQueue;
-@property(nonatomic, strong)NSThread *modeQueryThread;
+@property(nonatomic, strong)NSThread *musicQueryThread;
 
 @end

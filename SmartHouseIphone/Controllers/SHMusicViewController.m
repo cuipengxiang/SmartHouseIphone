@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.socketQueue = dispatch_queue_create("socketQueueMusic", NULL);
     }
     return self;
 }
@@ -81,6 +81,73 @@
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"unselected"]];
         }
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+    
+    [self setNetworkState:self.appDelegate.currentNetworkState];
+    
+    if (self.musicQueryThread) {
+        self.musicQueryThread = nil;
+    }
+    self.musicQueryThread = [[NSThread alloc] initWithTarget:self selector:@selector(queryMode:) object:nil];
+    if (![self.musicQueryThread isExecuting]) {
+        [self.musicQueryThread start];
+    }
+}
+
+- (void)queryMode:(NSThread *)thread
+{
+    while ([[NSThread currentThread] isCancelled] == NO) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+            NSError *error;
+            GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+            [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:1.0 error:&error];
+        });
+        [NSThread sleepForTimeInterval:3];
+    }
+    [NSThread exit];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.musicQueryThread cancel];
+}
+
+#pragma mark Socket
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+{
+    //[sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
+    [sock disconnect];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    if (err) {
+        [self setNetworkState:NO];
+    } else {
+        [self setNetworkState:YES];
+    }
+    sock = nil;
+}
+
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
+{
+    [sock disconnect];
+    return 0.0;
 }
 
 - (void)didReceiveMemoryWarning

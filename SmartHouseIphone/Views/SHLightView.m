@@ -15,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.model = model;
+        self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -132,6 +133,14 @@
         }
     }
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", degree] forKey:[NSString stringWithFormat:@"light_state%@%@", self.model.area, self.model.channel]];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        NSString *command = [NSString stringWithFormat:@"*channellevel %@,%d,%@,%@", self.model.channel, currentDegree*10, self.model.area, self.model.fade];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", command];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 @end

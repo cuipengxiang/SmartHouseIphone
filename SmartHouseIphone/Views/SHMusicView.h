@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SHMusicModel.h"
+#import "AppDelegate.h"
 
 @interface SHMusicView : UIView
 {
@@ -23,5 +24,6 @@
 @property (nonatomic, strong)SHMusicModel *model;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHMusicModel *)model;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end

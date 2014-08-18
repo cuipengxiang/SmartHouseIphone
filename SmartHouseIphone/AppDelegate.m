@@ -72,22 +72,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark Socket
+#pragma mark Socket Delegate
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-    //[sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
-    [sock disconnect];
+    [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:2 tag:0];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-    //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+    [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-    
+    [sock disconnect];
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
@@ -97,13 +97,6 @@
     } else {
         self.currentNetworkState = YES;
     }
-    sock = nil;
-}
-
-- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
-{
-    [sock disconnect];
-    return 0.0;
 }
 
 @end
