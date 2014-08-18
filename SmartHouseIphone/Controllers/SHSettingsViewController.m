@@ -26,7 +26,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
     self.settingbox = [[UIView alloc] init];
@@ -62,13 +61,12 @@
     
     self.network = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 110.0, 200.0, 29.0)];
     [self.network setBackgroundImage:[UIImage imageNamed:@"bg_setup_line"] forState:UIControlStateNormal];
-    NSString *imagename;
     if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
-        imagename = @"btn_switch_2";
-    } else {
-        imagename = @"btn_switch_1";
+        netImageName = @"btn_switch_2";
+    } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
+        netImageName = @"btn_switch_1";
     }
-    [self.network setImage:[UIImage imageNamed:imagename] forState:UIControlStateNormal];
+    [self.network setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
     [self.network setImageEdgeInsets:UIEdgeInsetsMake(0.0, 110.0, 0.0, 0.0)];
     [self.network addTarget:self action:@selector(onNetworkClick) forControlEvents:UIControlEventTouchUpInside];
     [self.network setTitle:@"联网设置" forState:UIControlStateNormal];
@@ -93,15 +91,14 @@
 
 - (void)onNetworkClick
 {
-    NSString *imagename;
-    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
-        self.appDelegate.host = self.appDelegate.host2;
-        imagename = @"btn_switch_1";
-    } else {
+    if ([netImageName isEqualToString:@"btn_switch_1"]) {
         self.appDelegate.host = self.appDelegate.host1;
-        imagename = @"btn_switch_2";
+        netImageName = @"btn_switch_2";
+    } else if ([netImageName isEqualToString:@"btn_switch_2"]){
+        self.appDelegate.host = self.appDelegate.host2;
+        netImageName = @"btn_switch_1";
     }
-    [self.network setImage:[UIImage imageNamed:imagename] forState:UIControlStateNormal];
+    [self.network setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
     [[NSUserDefaults standardUserDefaults] setObject:self.appDelegate.host forKey:@"host"];
 }
 

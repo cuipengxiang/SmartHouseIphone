@@ -18,5 +18,7 @@
 
 @property (nonatomic, strong)NSArray *musics;
 @property (nonatomic, strong)NSMutableArray *musicViews;
+@property (nonatomic)dispatch_queue_t socketQueue;
+@property(nonatomic, strong)NSThread *modeQueryThread;
 
 @end

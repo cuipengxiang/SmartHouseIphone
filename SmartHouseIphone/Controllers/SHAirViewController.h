@@ -14,9 +14,13 @@
     UIScrollView *airScrollView;
     UIView *selectedView;
     NSMutableArray *selectedBlocks;
+    BOOL skip;
 }
 
 @property (nonatomic, strong)NSArray *airs;
 @property (nonatomic, strong)NSMutableArray *airViews;
+@property (nonatomic)dispatch_queue_t socketQueue;
+@property (nonatomic, strong)NSThread *airQueryThread;
+@property (nonatomic)int currentPage;
 
 @end

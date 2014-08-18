@@ -9,7 +9,7 @@
 #import "SHParentViewController.h"
 #import "SHCurtainModel.h"
 
-@interface SHCurtainViewController : SHParentViewController<UIScrollViewDelegate>
+@interface SHCurtainViewController : SHParentViewController<UIScrollViewDelegate, GCDAsyncSocketDelegate>
 {
     UIScrollView *curtainScrollView;
     UIView *selectedView;
@@ -18,5 +18,7 @@
 
 @property (nonatomic, strong)NSArray *curtains;
 @property (nonatomic, strong)NSMutableArray *curtainViews;
+@property (nonatomic)dispatch_queue_t socketQueue;
+@property (nonatomic, strong)NSThread *curtainQueryThread;
 
 @end

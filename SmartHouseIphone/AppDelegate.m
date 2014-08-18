@@ -14,21 +14,31 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.socketQueue = dispatch_queue_create("socketQueueAppDelegate", NULL);
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
     
     SHConfigFile *file = [[SHConfigFile alloc] init];
     [file readFile];
+    NSString *localHost = [[NSUserDefaults standardUserDefaults] objectForKey:@"host"];
+    if (localHost) {
+        if ([localHost isEqualToString:self.host1]) {
+            self.host = self.host1;
+        } else if ([localHost isEqualToString:self.host2]){
+            self.host = self.host2;
+        }
+    }
+    
+    self.currentNetworkState = YES;
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"first"]) {
         SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
-        mainController.appDelegate = self;
         self.window.rootViewController = self.navigation;
     } else {
         SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
-        mainController.appDelegate = self;
         self.window.rootViewController = self.navigation;
     }
     
@@ -60,6 +70,40 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark Socket
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+{
+    //[sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
+    [sock disconnect];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    if (err) {
+        self.currentNetworkState = NO;
+    } else {
+        self.currentNetworkState = YES;
+    }
+    sock = nil;
+}
+
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
+{
+    [sock disconnect];
+    return 0.0;
 }
 
 @end

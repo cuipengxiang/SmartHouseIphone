@@ -8,8 +8,9 @@
 
 #import "SHParentViewController.h"
 #import "SHLightModel.h"
+#import "SHLightView.h"
 
-@interface SHLightViewController : SHParentViewController<UIScrollViewDelegate>
+@interface SHLightViewController : SHParentViewController<UIScrollViewDelegate, GCDAsyncSocketDelegate>
 {
     UIScrollView *lightScrollView;
     UIView *selectedView;
@@ -18,5 +19,8 @@
 
 @property (nonatomic, strong)NSArray *lights;
 @property (nonatomic, strong)NSMutableArray *lightViews;
+@property (nonatomic)dispatch_queue_t socketQueue;
+@property (nonatomic, strong)NSThread *lightQueryThread;
+@property (nonatomic)int currentPage;
 
 @end

@@ -24,14 +24,13 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        self.socketQueue = dispatch_queue_create("socketQueueRoomMain", NULL);
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [super viewDidLoad];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
@@ -42,16 +41,15 @@
     NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtons];
     
-    NSString *imagename;
-    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
-        imagename = @"btn_switch_big2";
-    } else {
-        imagename = @"btn_switch_big1";
-    }
     self.networkButton = [[UIButton alloc] initWithFrame:CGRectMake(75.0, 25.0, 170.0, 42.0)];
-    [self.networkButton setBackgroundImage:[UIImage imageNamed:imagename] forState:UIControlStateNormal];
     [self.networkButton addTarget:self action:@selector(onNetworkClick) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.networkButton];
+    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
+        netImageName = @"btn_switch_big1";
+    } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
+        netImageName = @"btn_switch_big2";
+    }
+    //[self.networkButton setBackgroundImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
     
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     if ((self.model.modes)&&(self.model.modes.count > 0)) {
@@ -92,22 +90,43 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if ([netImageName isEqualToString:@"btn_switch_big1"]) {
+        self.appDelegate.host = self.appDelegate.host2;
+        netImageName = @"btn_switch_big2";
+    } else if ([netImageName isEqualToString:@"btn_switch_big2"]){
+        self.appDelegate.host = self.appDelegate.host1;
+        netImageName = @"btn_switch_big1";
+    }
+    [self.networkButton setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO];
+    
+    [self setNetworkState:self.appDelegate.currentNetworkState];
+    
+    if (self.roomMainQueryThread) {
+        self.roomMainQueryThread = nil;
+    }
+    self.roomMainQueryThread = [[NSThread alloc] initWithTarget:self selector:@selector(queryMode:) object:nil];
+    if (![self.roomMainQueryThread isExecuting]) {
+        [self.roomMainQueryThread start];
+    }
 }
 
 - (void)onNetworkClick
 {
-    NSString *imagename;
-    if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
+    if ([netImageName isEqualToString:@"btn_switch_big1"]) {
         self.appDelegate.host = self.appDelegate.host2;
-        imagename = @"btn_switch_big1";
-    } else {
+        netImageName = @"btn_switch_big2";
+    } else if ([netImageName isEqualToString:@"btn_switch_big2"]){
         self.appDelegate.host = self.appDelegate.host1;
-        imagename = @"btn_switch_big2";
+        netImageName = @"btn_switch_big1";
     }
-    [self.networkButton setImage:[UIImage imageNamed:imagename] forState:UIControlStateNormal];
+    [self.networkButton setImage:[UIImage imageNamed:netImageName] forState:UIControlStateNormal];
     [[NSUserDefaults standardUserDefaults] setObject:self.appDelegate.host forKey:@"host"];
 }
 
@@ -150,6 +169,59 @@
 {
     SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:settingController animated:YES];
+}
+
+- (void)queryMode:(NSThread *)thread
+{
+    while ([[NSThread currentThread] isCancelled] == NO) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+            NSError *error;
+            GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+            [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:1.0 error:&error];
+        });
+        [NSThread sleepForTimeInterval:3];
+    }
+    [NSThread exit];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.roomMainQueryThread cancel];
+}
+
+#pragma mark Socket
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+{
+    //[sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
+    [sock disconnect];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    if (err) {
+        [self setNetworkState:NO];
+    } else {
+        [self setNetworkState:YES];
+    }
+    sock = nil;
+}
+
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
+{
+    [sock disconnect];
+    return 0.0;
 }
 
 - (void)didReceiveMemoryWarning

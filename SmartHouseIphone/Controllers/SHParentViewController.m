@@ -18,7 +18,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        UIButton *networkButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+        [networkButton setBackgroundImage:[UIImage imageNamed:@"network_connected"] forState:UIControlStateNormal];
+        [networkButton setBackgroundImage:[UIImage imageNamed:@"network_disconnected"] forState:UIControlStateSelected];
+        [networkButton setUserInteractionEnabled:NO];
+        self.networkStateButton = [[UIBarButtonItem alloc] initWithCustomView:networkButton];
     }
     return self;
 }
@@ -26,14 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"topbar_bg"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
-    UIButton *networkButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
-    [networkButton setBackgroundImage:[UIImage imageNamed:@"network_connected"] forState:UIControlStateNormal];
-    [networkButton setBackgroundImage:[UIImage imageNamed:@"network_disconnected"] forState:UIControlStateSelected];
-    self.networkStateButton = [[UIBarButtonItem alloc] initWithCustomView:networkButton];
+    [self setNetworkState:self.appDelegate.currentNetworkState];
     
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0.0, IS_iOS7? 64.0:0.0, 320.0, App_Height - Nav_Height)];
     [self.view addSubview:self.contentView];
@@ -75,6 +77,18 @@
 - (void)onBackButtonClicked
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setNetworkState:(BOOL)state
+{
+    self.appDelegate.currentNetworkState = state;
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if (state) {
+            [(UIButton *)self.networkStateButton.customView setSelected:NO];
+        } else {
+            [(UIButton *)self.networkStateButton.customView setSelected:YES];
+        }
+    });
 }
 
 - (void)didReceiveMemoryWarning

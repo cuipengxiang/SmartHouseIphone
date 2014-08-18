@@ -11,7 +11,6 @@
 
 @interface SHAirView : UIView
 {
-    Boolean skip;
     UILabel *titleLabel;
     UIButton *on_off;
     UIView *modeView;
@@ -30,6 +29,7 @@
 @property (nonatomic)int currentMode;
 @property (nonatomic)int currentSpeed;
 @property (nonatomic)int currentTemp;
+@property (nonatomic)BOOL skip;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHAirConditioningModel *)model;
 

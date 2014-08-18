@@ -10,6 +10,9 @@
 #import "SHPassWordSettingViewController.h"
 
 @interface SHSettingsViewController : SHParentViewController
+{
+    NSString *netImageName;
+}
 
 @property(nonatomic, strong)UIView *settingbox;
 @property(nonatomic, strong)UIButton *password;

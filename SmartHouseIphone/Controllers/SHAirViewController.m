@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        self.socketQueue = dispatch_queue_create("socketQueueAir", NULL);
     }
     return self;
 }
@@ -50,9 +50,11 @@
     [selectedView setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:selectedView];
     
+    self.airViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.airs.count; i++) {
         SHAirView *airView = [[SHAirView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 390.0) andModel:[self.airs objectAtIndex:i]];
         [airScrollView addSubview:airView];
+        [self.airViews addObject:airView];
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*15.0, 0.0, 10.0, 10.0)];
         if (i == 0) {
@@ -63,6 +65,7 @@
         [selectedBlocks addObject:imageView];
         [selectedView addSubview:imageView];
     }
+    self.currentPage = 0;
 }
 
 - (void)onSettingButtonClicked
@@ -81,6 +84,100 @@
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"unselected"]];
         }
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+    
+    [self setNetworkState:self.appDelegate.currentNetworkState];
+    
+    if (self.airQueryThread) {
+        self.airQueryThread = nil;
+    }
+    self.airQueryThread = [[NSThread alloc] initWithTarget:self selector:@selector(queryMode:) object:nil];
+    if (![self.airQueryThread isExecuting]) {
+        [self.airQueryThread start];
+    }
+}
+
+- (void)queryMode:(NSThread *)thread
+{
+    while ([[NSThread currentThread] isCancelled] == NO) {
+        if (!skip) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+                NSError *error;
+                GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+                socket.command = [NSString stringWithFormat:@"*aircreply %@,%@\r\n", [[self.airs objectAtIndex:self.currentPage] mainaddr], [[self.airs objectAtIndex:self.currentPage] secondaryaddr]];
+                [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+            });
+        } else {
+            skip = NO;
+        }
+        sleep(4);
+    }
+    [NSThread exit];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.airQueryThread cancel];
+}
+
+#pragma mark Socket
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+{
+    if (sock.command) {
+        [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
+    } else {
+        [sock disconnect];
+    }
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    if (sock.command) {
+        [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+    }
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    if (sock.skip == -1) {
+        sock.skip = 0;
+        [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+        return;
+    }
+    NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
+    NSString *msg = [[NSString alloc] initWithData:strData encoding:NSUTF8StringEncoding];
+    
+    NSArray *arrayTemp = [msg arrayOfCaptureComponentsMatchedByRegex:@"T\\[(.+?)\\]"];
+    if ((arrayTemp)&&(arrayTemp.count > 0)) {
+        int brightness = [[[arrayTemp objectAtIndex:0] objectAtIndex:1] integerValue]/10;
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            if (sock.type >= 0) {
+                //[[self.airViews objectAtIndex:sock.type] setLightDegree:brightness];
+            }
+        });
+    }
+    [sock disconnect];
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    if (err) {
+        [self setNetworkState:NO];
+    } else {
+        [self setNetworkState:YES];
+    }
+    sock = nil;
+}
+
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
+{
+    [sock disconnect];
+    return 0.0;
 }
 
 - (void)didReceiveMemoryWarning

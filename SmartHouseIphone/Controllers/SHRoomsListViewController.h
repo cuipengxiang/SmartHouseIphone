@@ -8,8 +8,10 @@
 
 #import "SHParentViewController.h"
 
-@interface SHRoomsListViewController : SHParentViewController<UITableViewDelegate, UITableViewDataSource>
+@interface SHRoomsListViewController : SHParentViewController<UITableViewDelegate, UITableViewDataSource, GCDAsyncSocketDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) NSThread *roomListQueryThread;
+@property (nonatomic)dispatch_queue_t socketQueue;
 
 @end

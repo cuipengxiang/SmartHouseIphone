@@ -20,5 +20,6 @@
 - (void)setNavigationLeftButtonWithTarget:(id)target Action:(SEL)selector;
 - (void)setNavigationTitle:(NSString *)title;
 - (void)setNavigationTitleView:(UIView *)view;
+- (void)setNetworkState:(BOOL)state;
 
 @end

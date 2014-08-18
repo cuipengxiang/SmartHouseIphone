@@ -21,14 +21,13 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        self.socketQueue = dispatch_queue_create("socketQueueRoomList", NULL);
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [super viewDidLoad];
     
     UIButton *settingButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
@@ -54,6 +53,35 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO];
+    
+    [self setNetworkState:self.appDelegate.currentNetworkState];
+    
+    if (self.roomListQueryThread) {
+        self.roomListQueryThread = nil;
+    }
+    self.roomListQueryThread = [[NSThread alloc] initWithTarget:self selector:@selector(queryMode:) object:nil];
+    if (![self.roomListQueryThread isExecuting]) {
+        [self.roomListQueryThread start];
+    }
+}
+
+- (void)queryMode:(NSThread *)thread
+{
+    while ([[NSThread currentThread] isCancelled] == NO) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+            NSError *error;
+            GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+            [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:1.0 error:&error];
+        });
+        [NSThread sleepForTimeInterval:3];
+    }
+    [NSThread exit];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.roomListQueryThread cancel];
 }
 
 - (void)onSettingButtonClicked
@@ -71,6 +99,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SHRoomMainViewController *controller = [[SHRoomMainViewController alloc] initWithNibName:nil bundle:nil];
     controller.model = [self.appDelegate.models objectAtIndex:indexPath.row];
+    [controller setNetworkState:self.appDelegate.currentNetworkState];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -109,6 +138,39 @@
 	return 1;
 }
 
+#pragma mark Socket
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+{
+    //[sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
+    [sock disconnect];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    if (err) {
+        [self setNetworkState:NO];
+    } else {
+        [self setNetworkState:YES];
+    }
+    sock = nil;
+}
+
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
+{
+    [sock disconnect];
+    return 0.0;
+}
 
 - (void)didReceiveMemoryWarning
 {

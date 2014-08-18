@@ -9,8 +9,16 @@
 #import "SHParentViewController.h"
 #import "SHModeModel.h"
 
-@interface SHModeViewController : SHParentViewController
+@interface SHModeViewController : SHParentViewController<GCDAsyncSocketDelegate>
+{
+    NSArray *Lights;
+    NSArray *Curtains;
+    NSArray *AirConditionings;
+    NSArray *Musics;
+}
 
 @property (nonatomic, strong)NSArray *modes;
+@property (nonatomic)dispatch_queue_t socketQueue;
+@property(nonatomic, strong)NSThread *modeQueryThread;
 
 @end

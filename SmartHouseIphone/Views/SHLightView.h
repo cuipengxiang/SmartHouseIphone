@@ -24,5 +24,6 @@
 @property (nonatomic, strong)SHLightModel *model;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHLightModel *)model;
+- (void)setLightDegree:(int)degree;
 
 @end

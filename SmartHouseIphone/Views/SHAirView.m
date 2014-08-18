@@ -18,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.model = model;
-        skip = NO;
+        self.skip = NO;
         self.currentMode = -1;
         self.currentSpeed = -1;
         self.currentTemp = -1;
@@ -183,7 +183,7 @@
 
 - (void)onModeButtonClick:(UIButton *)button
 {
-    skip = YES;
+    self.skip = YES;
     self.currentMode = button.tag - Mode_Button_Base_Tag;
     [button setSelected:YES];
     for (int i = 0; i < self.model.modes.count; i++) {
@@ -196,7 +196,7 @@
 
 - (void)onSpeedButtonClick:(UIButton *)button
 {
-    skip = YES;
+    self.skip = YES;
     self.currentSpeed = button.tag - Speed_Button_Base_Tag;
     [button setSelected:YES];
     for (int i = 0; i < 3; i++) {
