@@ -128,6 +128,7 @@
 {
     SHModeViewController *modeController = [[SHModeViewController alloc] initWithNibName:nil bundle:nil];
     modeController.modes = self.model.modes;
+    modeController.roomModel = self.model;
     [self.navigationController pushViewController:modeController animated:YES];
 }
 

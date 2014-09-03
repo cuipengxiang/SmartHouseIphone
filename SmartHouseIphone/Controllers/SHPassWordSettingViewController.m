@@ -145,6 +145,8 @@
         if ([password isEqualToString:[self.oldpassword text]]) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"修改密码成功" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [av show];
+            [[NSUserDefaults standardUserDefaults] setObject:self.newpassword.text forKey:@"password"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.oldpassword setText:nil];
             [self.newpassword setText:nil];
             [self.newpassword_again setText:nil];
@@ -157,9 +159,6 @@
             [self.newpassword setPlaceholder:@"输入新密码"];
             [self.newpassword_again setBackground:[UIImage imageNamed:@"input_box"]];
             [self.newpassword_again setPlaceholder:@"再次输入新密码"];
-
-            [[NSUserDefaults standardUserDefaults] setObject:self.newpassword.text forKey:@"password"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
         } else {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"旧密码错误" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [av show];
@@ -182,6 +181,8 @@
         if ([[self.oldpassword text] isEqualToString:@"0000"]) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"修改密码成功" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [av show];
+            [[NSUserDefaults standardUserDefaults] setObject:self.newpassword.text forKey:@"password"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.oldpassword setText:nil];
             [self.newpassword setText:nil];
             [self.newpassword_again setText:nil];
@@ -194,9 +195,6 @@
             [self.newpassword setPlaceholder:@"输入新密码"];
             [self.newpassword_again setBackground:[UIImage imageNamed:@"input_box"]];
             [self.newpassword_again setPlaceholder:@"再次输入新密码"];
-
-            [[NSUserDefaults standardUserDefaults] setObject:self.newpassword.text forKey:@"password"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
         } else {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"旧密码错误" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [av show];
