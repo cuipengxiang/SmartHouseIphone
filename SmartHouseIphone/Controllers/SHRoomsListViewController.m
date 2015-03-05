@@ -11,6 +11,8 @@
 #import "SHRoomMainViewController.h"
 #import "SHSettingsViewController.h"
 
+#define ROOM_BUTTON_BASE_TAG 10000
+
 @interface SHRoomsListViewController ()
 
 @end
@@ -37,6 +39,12 @@
     NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtons];
     
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+    [leftButton setImage:nil forState:UIControlStateNormal];
+    [leftButton setImage:nil forState:UIControlStateHighlighted];
+    [leftButton addTarget:self action:@selector(onBackClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftButton]];
+    
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(10.0, 10.0, 300.0, self.contentView.frame.size.height - 20.0)];
@@ -47,7 +55,48 @@
     [self.tableView setDataSource:self];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView reloadData];
-    [self.contentView addSubview:self.tableView];
+    //[self.contentView addSubview:self.tableView];
+    
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 10.0f, self.view.frame.size.width, self.contentView.frame.size.height - 20.0f)];
+    [self.scrollView setBackgroundColor:[UIColor clearColor]];
+    [self setupRoomButtons];
+    
+}
+
+- (void)onBackClick
+{
+    
+}
+
+- (void)setupRoomButtons
+{
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, (self.appDelegate.models.count + 1)/2*100 + 60.0)];
+    for (int i = 0; i < self.appDelegate.models.count; i++) {
+        NSString *roomName = [[self.appDelegate.models objectAtIndex:i] name];
+        UIButton *roomButton = [[UIButton alloc] init];
+        if ((i/2)%2 == 0) {
+            roomButton.frame = CGRectMake(20.0 + i%2*130.0, 40.0 + i/2*100.0, 119.0, 81.0);
+        } else {
+            roomButton.frame = CGRectMake(self.contentView.frame.size.width - 260.0 + i%2*130.0, 40.0 + i/2*100.0, 119.0, 81.0);
+        }
+        [roomButton setTitle:roomName forState:UIControlStateNormal];
+        [roomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [roomButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"room_btn_%d", i%6]] forState:UIControlStateNormal];
+        [roomButton setTag:i + ROOM_BUTTON_BASE_TAG];
+        [roomButton addTarget:self action:@selector(onRoomBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.scrollView addSubview:roomButton];
+    }
+    
+    [self.contentView addSubview:self.scrollView];
+}
+
+- (void)onRoomBtnClicked:(UIButton *)button
+{
+    int index = button.tag - ROOM_BUTTON_BASE_TAG;
+    SHRoomMainViewController *controller = [[SHRoomMainViewController alloc] initWithNibName:nil bundle:nil];
+    controller.model = [self.appDelegate.models objectAtIndex:index];
+    [controller setNetworkState:self.appDelegate.currentNetworkState];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated

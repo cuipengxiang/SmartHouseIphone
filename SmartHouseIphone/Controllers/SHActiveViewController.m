@@ -8,6 +8,7 @@
 
 #import "SHActiveViewController.h"
 #import "SHLoginViewController.h"
+#import "SHRoomsListViewController.h"
 
 @interface SHActiveViewController ()
 
@@ -99,8 +100,12 @@
 
 - (void)onSubmitClicked
 {
+    /*
     SHLoginViewController *loginController = [[SHLoginViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:loginController animated:YES];
+     */
+    SHRoomsListViewController *roomListController = [[SHRoomsListViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:roomListController animated:YES];
 }
 
 - (void)hideKeyboard

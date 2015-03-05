@@ -79,6 +79,11 @@
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self queryMode:nil];
+}
+
 - (void)onSettingButtonClicked
 {
     SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
@@ -94,14 +99,25 @@
     if (self.lightQueryThread) {
         self.lightQueryThread = nil;
     }
+    [self queryMode:nil];
+    /*
     self.lightQueryThread = [[NSThread alloc] initWithTarget:self selector:@selector(queryMode:) object:nil];
     if (![self.lightQueryThread isExecuting]) {
         [self.lightQueryThread start];
     }
+     */
 }
 
 - (void)queryMode:(NSThread *)thread
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+        socket.command = [NSString stringWithFormat:@"*requestchannellevel %@,%@\r\n", [[self.lights objectAtIndex:self.currentPage] channel], [[self.lights objectAtIndex:self.currentPage] area]];
+        socket.type = self.currentPage;
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
+    /*
     while ([[NSThread currentThread] isCancelled] == NO) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
             NSError *error;
@@ -110,9 +126,10 @@
             socket.type = self.currentPage;
             [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
         });
-    sleep(4);
+        sleep(4);
     }
     [NSThread exit];
+     */
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -151,6 +168,9 @@
     NSArray *arrayTemp = [msg arrayOfCaptureComponentsMatchedByRegex:@"T\\[(.+?)\\]"];
     if ((arrayTemp)&&(arrayTemp.count > 0)) {
         int brightness = [[[arrayTemp objectAtIndex:0] objectAtIndex:1] integerValue]/10;
+        if ([[[arrayTemp objectAtIndex:0] objectAtIndex:1] integerValue]%10 != 0 && brightness < 10) {
+            brightness++;
+        }
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             if (sock.type >= 0) {
                 [[self.lightViews objectAtIndex:sock.type] setLightDegree:brightness];

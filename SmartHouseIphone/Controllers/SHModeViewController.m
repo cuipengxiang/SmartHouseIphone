@@ -48,12 +48,8 @@
     NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtons];
     
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, 320.0, self.contentView.frame.size.height - 20.0)];
-    [scrollView setBackgroundColor:[UIColor clearColor]];
-    [scrollView setContentSize:CGSizeMake(320.0, 10 + self.modes.count * 90)];
-    [scrollView setShowsVerticalScrollIndicator:NO];
-    [self.contentView addSubview:scrollView];
-    
+    [self setupModeButtons];
+    /*
     for (int i = 0; i < self.modes.count; i++) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 10 + 90*i, 284.0, 77.0)];
         //[button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"btn_mode_%d", i + 1]] forState:UIControlStateNormal];
@@ -69,6 +65,7 @@
         [button addTarget:self action:@selector(onModeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [scrollView addSubview:button];
     }
+    */
     userDefined = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 10 + 90*self.modes.count, 284.0, 77.0)];
     [userDefined setBackgroundImage:[UIImage imageNamed:@"btn_mode_bg"] forState:UIControlStateNormal];
     [userDefined setBackgroundImage:[UIImage imageNamed:@"btn_mode_bg_pressed"] forState:UIControlStateHighlighted];
@@ -82,7 +79,28 @@
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onUserDefinedModeLongPressed:)];
     longPress.minimumPressDuration = 1.5; //定义按的时间
     [userDefined addGestureRecognizer:longPress];
-    [scrollView addSubview:userDefined];
+    //[scrollView addSubview:userDefined];
+}
+
+- (void)setupModeButtons
+{
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, self.contentView.frame.size.width, self.contentView.frame.size.height - 20.0)];
+    [scrollView setBackgroundColor:[UIColor clearColor]];
+    [scrollView setContentSize:CGSizeMake(320.0, 10 + self.modes.count * 90)];
+    [scrollView setShowsVerticalScrollIndicator:NO];
+    [self.contentView addSubview:scrollView];
+    
+    for (int i = 0; i < self.modes.count; i++) {
+        NSString *modeName = [[self.modes objectAtIndex:i] name];
+        UIButton *modeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        modeButton.frame = CGRectMake((self.contentView.frame.size.width - 250.0)/2 + i%2*151.0, 40.0 + i/2*100.0, 99.0, 105.0);
+        [modeButton setTitle:modeName forState:UIControlStateNormal];
+        [modeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [modeButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"mode_btn_%d", i%6]] forState:UIControlStateNormal];
+        [modeButton setTag:i + Button_Base_Tag];
+        [modeButton addTarget:self action:@selector(onModeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [scrollView addSubview:modeButton];
+    }
 }
 
 - (void)onSettingButtonClicked
@@ -288,7 +306,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    if (sock.command) {
+    if (sock.command&&sock.command.length > 0) {
         [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
     } else {
         [sock disconnect];
@@ -297,7 +315,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-    if (sock.command) {
+    if (sock.command&&sock.command.length > 0) {
         [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
     }
 }

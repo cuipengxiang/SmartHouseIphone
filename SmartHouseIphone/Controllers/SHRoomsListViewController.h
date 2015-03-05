@@ -14,4 +14,6 @@
 @property(nonatomic, strong) NSThread *roomListQueryThread;
 @property (nonatomic)dispatch_queue_t socketQueue;
 
+@property (nonatomic) UIScrollView *scrollView;
+
 @end

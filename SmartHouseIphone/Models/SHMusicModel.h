@@ -15,6 +15,7 @@
 @property (nonatomic,strong)NSString *area;
 @property (nonatomic,strong)NSString *channel;
 @property (nonatomic,strong)NSString *modecmd;
+@property (nonatomic,strong)NSMutableArray *sources;
 @property (nonatomic,strong)NSMutableArray *buttons;
 
 - (id)init;

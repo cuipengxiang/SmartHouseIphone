@@ -128,6 +128,7 @@
             musicModel.name = [[musicElement attributes] objectForKey:@"name"];
             musicModel.area = [[musicElement attributes] objectForKey:@"area"];
             musicModel.channel = [[musicElement attributes] objectForKey:@"channel"];
+            
             NSArray *musicButtons = [musicElement searchWithXPathQuery:@"//Button"];
             for (int k = 0; k < musicButtons.count; k++) {
                 SHMusicButtonModel *buttonModel = [[SHMusicButtonModel alloc] init];
@@ -135,6 +136,12 @@
                 buttonModel.name = [[buttonElement attributes] objectForKey:@"name"];
                 buttonModel.command = [[buttonElement attributes] objectForKey:@"cmd"];
                 [musicModel.buttons addObject:buttonModel];
+            }
+            
+            NSArray *musicSources = [musicElement searchWithXPathQuery:@"//Source"];
+            for (int k = 0; k < musicSources.count; k++) {
+                TFHppleElement *buttonElement = [musicSources objectAtIndex:k];
+                [musicModel.sources addObject:[[buttonElement attributes] objectForKey:@"name"]];
             }
             [roomModel.musics addObject:musicModel];
             [wholeHouse.musics addObject:musicModel];

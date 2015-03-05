@@ -9,6 +9,7 @@
 #import "SHMusicViewController.h"
 #import "SHSettingsViewController.h"
 #import "SHMusicView.h"
+#import "SHMusicViewNew.h"
 
 @interface SHMusicViewController ()
 
@@ -37,8 +38,8 @@
     NSArray *rightButtons = @[self.networkStateButton, settingBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtons];
     
-    musicScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 380.0)];
-    [musicScrollView setContentSize:CGSizeMake(320.0*self.musics.count, 380.0)];
+    musicScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 480.0)];
+    [musicScrollView setContentSize:CGSizeMake(320.0*self.musics.count, 480.0)];
     [musicScrollView setBackgroundColor:[UIColor clearColor]];
     [musicScrollView setPagingEnabled:YES];
     [musicScrollView setDelegate:self];
@@ -46,12 +47,16 @@
     [self.contentView addSubview:musicScrollView];
     
     selectedBlocks = [[NSMutableArray alloc] init];
-    selectedView = [[UIView alloc] initWithFrame:CGRectMake((320.0 - (15.0*self.musics.count-5))/2, 380 + (self.contentView.frame.size.height - 380 - 10)/2, 15.0*self.musics.count-5, 10.0)];
+    selectedView = [[UIView alloc] initWithFrame:CGRectMake((320.0 - (15.0*self.musics.count-5))/2, 480 + (self.contentView.frame.size.height - 480 - 10)/2, 15.0*self.musics.count-5, 10.0)];
     [selectedView setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:selectedView];
     
     for (int i = 0; i < self.musics.count; i++) {
+        /*
         SHMusicView *musicView = [[SHMusicView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 380.0) andModel:[self.musics objectAtIndex:i]];
+        [musicScrollView addSubview:musicView];
+        */
+        SHMusicViewNew *musicView = [[SHMusicViewNew alloc] initWithFrame:CGRectMake((musicScrollView.frame.size.width - 295.0)/2, (musicScrollView.frame.size.height - 419.0)/2 - 5.0, 295.0f, 419.0f) andModel:[self.musics objectAtIndex:i]];
         [musicScrollView addSubview:musicView];
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*15.0, 0.0, 10.0, 10.0)];

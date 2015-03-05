@@ -30,13 +30,17 @@
 
 - (void)layoutSubviews
 {
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(64.5, 20.0, 191.0, 37.0)];
-    [titleLabel setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]]];
+    UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake(64.5, 20.0, 191.0, 37.0)];
+    [titleView setImage:[UIImage imageNamed:@"title_bg"]];
+    [self addSubview:titleView];
+    
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 191.0, 37.0)];
+    [titleLabel setBackgroundColor:[UIColor clearColor]];
     [titleLabel setFont:[UIFont systemFontOfSize:16.0]];
     [titleLabel setTextAlignment:NSTextAlignmentCenter];
     [titleLabel setTextColor:[UIColor whiteColor]];
     [titleLabel setText:self.model.name];
-    [self addSubview:titleLabel];
+    [titleView addSubview:titleLabel];
     
     on_off = [[UIButton alloc] initWithFrame:CGRectMake(15.0, 70.0, 82.0, 29.0)];
     [on_off setImage:[UIImage imageNamed:@"btn_switch_off_air"] forState:UIControlStateNormal];

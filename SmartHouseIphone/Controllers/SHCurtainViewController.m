@@ -21,6 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.socketQueue = dispatch_queue_create("socketQueueCurtain", NULL);
+        self.curtainViews = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -53,6 +54,7 @@
     for (int i = 0; i < self.curtains.count; i++) {
         SHCurtainView *curtainView = [[SHCurtainView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 380.0) andModel:[self.curtains objectAtIndex:i]];
         [curtainScrollView addSubview:curtainView];
+        [self.curtainViews addObject:curtainView];
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*15.0, 0.0, 10.0, 10.0)];
         if (i == 0) {
@@ -63,20 +65,24 @@
         [selectedBlocks addObject:imageView];
         [selectedView addSubview:imageView];
     }
-    
-    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    int currentPage = floor((scrollView.contentOffset.x - scrollView.frame.size.width / 2) / scrollView.frame.size.width) + 1;
+    self.currentPage = floor((scrollView.contentOffset.x - scrollView.frame.size.width / 2) / scrollView.frame.size.width) + 1;
     for (int i = 0; i < self.curtains.count; i++) {
-        if (i == currentPage) {
+        if (i == self.currentPage) {
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"selected"]];
         } else {
             [[selectedBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"unselected"]];
         }
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    SHCurtainView *curtainView = [self.curtainViews objectAtIndex:self.currentPage];
+    [curtainView setAllButtonStateNormal];
 }
 
 - (void)onSettingButtonClicked

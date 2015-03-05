@@ -57,9 +57,9 @@
     [self.password setTitleColor:[UIColor colorWithRed:0.804 green:0.748 blue:0.714 alpha:1.0] forState:UIControlStateNormal];
     [self.password.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
     [self.password setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -120.0, 0.0, 0.0)];
-    [self.settingbox addSubview:self.password];
-    
-    self.network = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 110.0, 200.0, 29.0)];
+    //[self.settingbox addSubview:self.password];
+    //self.network = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 110.0, 200.0, 29.0)];
+    self.network = [[UIButton alloc] initWithFrame:CGRectMake(18.0, 85.0, 200.0, 29.0)];
     [self.network setBackgroundImage:[UIImage imageNamed:@"bg_setup_line"] forState:UIControlStateNormal];
     if ([self.appDelegate.host isEqualToString:self.appDelegate.host1]) {
         netImageName = @"btn_switch_2";

@@ -20,5 +20,6 @@
 @property (nonatomic, strong)NSMutableArray *curtainViews;
 @property (nonatomic)dispatch_queue_t socketQueue;
 @property (nonatomic, strong)NSThread *curtainQueryThread;
+@property (nonatomic, assign)int currentPage;
 
 @end

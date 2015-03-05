@@ -125,7 +125,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    if (sock.command) {
+    if (sock.command&&sock.command.length > 0) {
         [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:3.0 tag:0];
     } else {
         [sock disconnect];
@@ -134,7 +134,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-    if (sock.command) {
+    if (sock.command&&sock.command.length > 0) {
         [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
     }
 }

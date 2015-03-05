@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "SHActiveViewController.h"
 #import "SHConfigFile.h"
+#import "SHLoginViewController.h"
 
 @implementation AppDelegate
 
@@ -31,13 +32,18 @@
     }
     
     self.currentNetworkState = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+        [socket connectToHost:self.host onPort:self.port withTimeout:0.5 error:&error];
+    });
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"first"]) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"first"]) {
         SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
         self.window.rootViewController = self.navigation;
     } else {
-        SHActiveViewController *mainController = [[SHActiveViewController alloc] init];
+        SHLoginViewController *mainController = [[SHLoginViewController alloc] init];
         self.navigation = [[UINavigationController alloc] initWithRootViewController:mainController];
         self.window.rootViewController = self.navigation;
     }
@@ -77,7 +83,11 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-    [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:2 tag:0];
+    if (sock.command&&sock.command.length > 0) {
+        [sock writeData:[sock.command dataUsingEncoding:NSUTF8StringEncoding] withTimeout:2 tag:0];
+    } else {
+        [sock disconnect];
+    }
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag

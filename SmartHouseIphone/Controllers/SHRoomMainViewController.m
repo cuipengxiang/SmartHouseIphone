@@ -48,7 +48,7 @@
     } else if ([self.appDelegate.host isEqualToString:self.appDelegate.host2]){
         [self.networkButton setImage:[UIImage imageNamed:@"btn_switch_big2"] forState:UIControlStateNormal];
     }
-    [self.contentView addSubview:self.networkButton];
+    //[self.contentView addSubview:self.networkButton];
     
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     if ((self.model.modes)&&(self.model.modes.count > 0)) {

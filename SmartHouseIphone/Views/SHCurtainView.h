@@ -19,9 +19,10 @@
     UIButton *stopButton;
 }
 
+@property (strong, nonatomic) AppDelegate *appDelegate;
 @property (nonatomic, strong)SHCurtainModel *model;
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHCurtainModel *)model;
-@property (strong, nonatomic) AppDelegate *appDelegate;
+- (void)setAllButtonStateNormal;
 
 @end
