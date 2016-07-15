@@ -15,11 +15,18 @@
 @property (strong, nonatomic) NSString *host2;
 @property (nonatomic)int16_t port;
 @property (strong, nonatomic) NSMutableArray *models;
+@property (nonatomic) NSInteger connectSuccessTime; // 失败一次加个数成功一次清0
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navigation;
 @property (nonatomic)dispatch_queue_t socketQueue;
 
 @property (nonatomic)BOOL currentNetworkState;
+
+
+
+- (void)connectFail;
+- (void)connectSucc;
+@property (nonatomic) BOOL connect;
 
 @end

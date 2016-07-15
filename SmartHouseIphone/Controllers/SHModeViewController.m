@@ -34,6 +34,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setNavigationTitle:@"场景模式"];
+    
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
     Lights = [self.roomModel lights];
@@ -115,12 +118,21 @@
     SHModeModel *model = [self.modes objectAtIndex:index];
     NSArray *cmds = [model.modecmd componentsSeparatedByString:@"|"];
     
-    NSMutableArray *commands = [self contentToCommamd:cmds];
-    for (int i = 0; i < commands.count; i++) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+//    NSMutableArray *commands = [self contentToCommamd:cmds];
+//    for (int i = 0; i < commands.count; i++) {
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+//            NSError *error;
+//            GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
+//            socket.command = [NSString stringWithFormat:@"%@\r\n", [commands objectAtIndex:i]];
+//            [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+//        });
+//    }
+    
+    for (int i = 0; i < [cmds count]; i++) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
             NSError *error;
             GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:self.socketQueue];
-            socket.command = [NSString stringWithFormat:@"%@\r\n", [commands objectAtIndex:i]];
+            socket.command = [NSString stringWithFormat:@"%@\r\n", [cmds objectAtIndex:i]];
             [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
         });
     }
@@ -316,6 +328,12 @@
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     if (sock.command&&sock.command.length > 0) {
+        
+        // 刚发完清零
+        [self.appDelegate connectSucc];
+        //
+        
+        
         [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
     }
 }
@@ -371,8 +389,10 @@
 {
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }

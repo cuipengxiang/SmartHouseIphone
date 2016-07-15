@@ -32,6 +32,8 @@
 {
     [super viewDidLoad];
     
+    [self setNavigationTitle:@"房间选择"];
+    
     UIButton *settingButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
     [settingButton setBackgroundImage:[UIImage imageNamed:@"btn_setup"] forState:UIControlStateNormal];
     [settingButton addTarget:self action:@selector(onSettingButtonClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -84,6 +86,10 @@
         [roomButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"room_btn_%d", i%6]] forState:UIControlStateNormal];
         [roomButton setTag:i + ROOM_BUTTON_BASE_TAG];
         [roomButton addTarget:self action:@selector(onRoomBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        NSLog(@"roomButton === %@", roomButton);
+        
         [self.scrollView addSubview:roomButton];
     }
     
@@ -96,6 +102,7 @@
     SHRoomMainViewController *controller = [[SHRoomMainViewController alloc] initWithNibName:nil bundle:nil];
     controller.model = [self.appDelegate.models objectAtIndex:index];
     [controller setNetworkState:self.appDelegate.currentNetworkState];
+    [controller setNavigationTitle:[[self.appDelegate.models objectAtIndex:index] name]];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -209,8 +216,10 @@
 {
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }

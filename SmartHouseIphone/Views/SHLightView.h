@@ -27,5 +27,6 @@
 
 - (id)initWithFrame:(CGRect)frame andModel:(SHLightModel *)model;
 - (void)setLightDegree:(int)degree;
+- (void)setLightDegreeWithoutSendingCommond:(int)degree;
 
 @end

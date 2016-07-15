@@ -147,4 +147,30 @@
     });
 }
 
+- (void)setLightDegreeWithoutSendingCommond:(int)degree
+{
+    currentDegree = degree;
+    if (degree > 0) {
+        if (degree < 10) {
+            [lightImageView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"lightball_lv0%d", degree]]];
+        } else {
+            [lightImageView setImage:[UIImage imageNamed:@"lightball_lv10"]];
+        }
+        [on_off setTag:1];
+        [on_off setImage:[UIImage imageNamed:@"switch_btn_on"] forState:UIControlStateNormal];
+    } else {
+        [lightImageView setImage:[UIImage imageNamed:@"lightball_off"]];
+        [on_off setTag:0];
+        [on_off setImage:[UIImage imageNamed:@"switch_btn_off"] forState:UIControlStateNormal];
+    }
+    for (int i = 0; i < 10; i++) {
+        if (i < degree) {
+            [[degreeBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"light_degree_normal"]];
+        } else {
+            [[degreeBlocks objectAtIndex:i] setImage:[UIImage imageNamed:@"light_degree_empty"]];
+        }
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", degree] forKey:[NSString stringWithFormat:@"light_state%@%@", self.model.area, self.model.channel]];
+}
+
 @end

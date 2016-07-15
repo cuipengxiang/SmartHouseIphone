@@ -12,6 +12,13 @@
 
 @interface SHActiveViewController ()
 
+@property (nonatomic) NSInteger num1;
+@property (nonatomic) NSInteger num2;
+@property (nonatomic) NSInteger num3;
+@property (nonatomic) NSInteger num4;
+@property (nonatomic) NSInteger num5;
+@property (nonatomic) NSInteger num6;
+
 @end
 
 @implementation SHActiveViewController
@@ -27,6 +34,13 @@
 
 - (void)viewDidLoad
 {
+    self.num1 = arc4random() % 9;
+    self.num2 = arc4random() % 9;
+    self.num3 = arc4random() % 9;
+    self.num4 = arc4random() % 9;
+    self.num5 = arc4random() % 9;
+    self.num6 = arc4random() % 9;
+
     keyBoardShowing = NO;
     [super viewDidLoad];
     [self.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
@@ -54,12 +68,15 @@
     [self.activeNum setBackgroundColor:[UIColor clearColor]];
     [self.activeNum setFont:[UIFont boldSystemFontOfSize:20.0]];
     [self.activeNum setTextColor:[UIColor colorWithRed:0.714 green:0.267 blue:0.086 alpha:1]];
-    [self.activeNum setText:@"1 2 3 4 5 6"];
+    NSString *activeCode = [NSString stringWithFormat:@"%d %d %d %d %d %d", self.num1, self.num2, self.num3, self.num4, self.num5, self.num6];
+//    [self.activeNum setText:@"1 2 3 4 5 6"];
+    [self.activeNum setText:activeCode];
     [self.activeBox addSubview:self.activeNum];
     
     self.activeSummary = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 0.0)];
     [self.activeSummary setNumberOfLines:0];
-    NSString *summary = @"发送上面的数字到13912345678获取验证码并填入下方输入框中";
+//    NSString *summary = @"发送上面的数字到13912345678获取验证码并填入下方输入框中";
+    NSString *summary = @"请拨打供应商服务电话获取激活码";
     UIFont *font = [UIFont systemFontOfSize:14.0];
     CGSize size = CGSizeMake(240.0, 50.0);
     CGSize labelsize = [summary sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
@@ -78,6 +95,7 @@
     [self.activeField setTextColor:[UIColor colorWithRed:0.714 green:0.267 blue:0.086 alpha:1]];
     [self.activeField setTextAlignment:NSTextAlignmentCenter];
     [self.activeField setDelegate:self];
+    [self.activeField setKeyboardType:UIKeyboardTypeNumberPad];
     [self.activeBox addSubview:self.activeField];
     
     self.activeSubmit = [[UIButton alloc] initWithFrame:CGRectMake(22.5, 230.0, 245.0, 47.0)];
@@ -104,8 +122,31 @@
     SHLoginViewController *loginController = [[SHLoginViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:loginController animated:YES];
      */
-    SHRoomsListViewController *roomListController = [[SHRoomsListViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:roomListController animated:YES];
+    
+    
+    NSString *activeCode = [NSString stringWithFormat:@"%ld%ld%ld%ld%ld%ld", (long)self.num6, (long)self.num5, (long)self.num4, (long)self.num3, (long)self.num2, (long)self.num1];
+    if ([self.activeField.text isEqualToString:activeCode]) {
+        
+        
+        // 码写对了激活成功 随便存一个数 让first不空
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:1] forKey:@"first"];
+        
+        
+        
+        SHRoomsListViewController *roomListController = [[SHRoomsListViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:roomListController animated:YES];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                            message:@"激活码错误"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+
+    
+    
+
 }
 
 - (void)hideKeyboard
@@ -185,5 +226,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

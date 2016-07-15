@@ -135,6 +135,11 @@
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     if (sock.command&&sock.command.length > 0) {
+        
+        // 刚发完清零
+        [self.appDelegate connectSucc];
+        //
+        
         [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
     }
 }
@@ -187,8 +192,10 @@
 {
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }

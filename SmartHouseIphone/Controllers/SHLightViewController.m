@@ -134,6 +134,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [self.lightQueryThread cancel];
 }
 
@@ -151,6 +152,11 @@
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     if (sock.command) {
+        
+        // 刚发完清零
+        [self.appDelegate connectSucc];
+        //
+        
         [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
     }
 }
@@ -173,7 +179,7 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             if (sock.type >= 0) {
-                [[self.lightViews objectAtIndex:sock.type] setLightDegree:brightness];
+                [[self.lightViews objectAtIndex:sock.type] setLightDegreeWithoutSendingCommond:brightness];
             }
         });
     }
@@ -182,10 +188,13 @@
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
+    NSLog(@"灯的错误 %@", err);
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }

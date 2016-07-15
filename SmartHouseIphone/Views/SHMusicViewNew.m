@@ -8,6 +8,16 @@
 
 #import "SHMusicViewNew.h"
 #import "SHMusicButtonModel.h"
+#import "UIImage+ImageWithColor.h"
+
+@interface SHMusicViewNew ()
+
+@property (strong, nonatomic) UIButton *onButton;
+@property (strong, nonatomic) UIButton *offButton;
+
+@property (nonatomic) NSInteger sourceNumber;
+
+@end
 
 @implementation SHMusicViewNew
 
@@ -17,6 +27,7 @@
     if (self) {
         self.model = model;
         self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        self.sourceNumber = 99;
     }
     return self;
 }
@@ -93,11 +104,67 @@
         [sourceButtons addObject:sourceButton];
     }
     
-    on_off = [[UIButton alloc] initWithFrame:CGRectMake(106.5, 73.0, 82.0, 29.0)];
-    [on_off setImage:[UIImage imageNamed:@"btn_switch_off"] forState:UIControlStateNormal];
-    [on_off setTag:0];
-    [on_off addTarget:self action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:on_off];
+//    on_off = [[UIButton alloc] initWithFrame:CGRectMake(106.5, 73.0, 82.0, 29.0)];
+//    [on_off setImage:[UIImage imageNamed:@"btn_switch_off"] forState:UIControlStateNormal];
+//    [on_off setTag:0];
+//    [on_off addTarget:self action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [self addSubview:on_off];
+    
+    self.onButton = [[UIButton alloc] initWithFrame:CGRectMake(106.5, 73.0, 40, 40)];
+    [self.onButton setTitle:@"开" forState:UIControlStateNormal];
+    [self.onButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.onButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:213/255.0 green:213/255.0 blue:213.0/255.0 alpha:1]]  forState:UIControlStateNormal];
+    [self.onButton addTarget:self action:@selector(musicOnButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.onButton];
+
+    self.offButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 73, 40, 40)];
+    [self.offButton setTitle:@"关" forState:UIControlStateNormal];
+    [self.offButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.offButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:213/255.0 green:213/255.0 blue:213.0/255.0 alpha:1]] forState:UIControlStateNormal];
+    [self.offButton addTarget:self action:@selector(musicOffButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.offButton];
+}
+
+- (void)musicOnButtonClick
+{
+    NSString *cmdString;
+    if (self.sourceNumber == 99) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:@"请选择音源"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+        return;
+    }
+    cmdString = [NSString stringWithFormat:@"*audioc %@,%@,0,0,%d", self.model.area, self.model.channel, self.sourceNumber];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", cmdString];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
+}
+
+- (void)musicOffButtonClick
+{
+    NSString *cmdString;
+    if (self.sourceNumber == 99) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:@"请选择音源"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+        return;
+    }
+    cmdString = [NSString stringWithFormat:@"*audioc %@,%@,2,0,%d", self.model.area, self.model.channel, self.sourceNumber];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(void){
+        NSError *error;
+        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self.appDelegate delegateQueue:self.appDelegate.socketQueue];
+        socket.command = [NSString stringWithFormat:@"%@\r\n", cmdString];
+        [socket connectToHost:self.appDelegate.host onPort:self.appDelegate.port withTimeout:3.0 error:&error];
+    });
 }
 
 - (void)onSourceClicked:(UIButton *)button
@@ -112,37 +179,89 @@
 
 - (void)onButtonClicked:(UIButton *)button
 {
+
+    
     NSString *cmdString;
     if (button == on_off) {
         if (button.tag == 1) {
             [on_off setTag:0];
             [on_off setImage:[UIImage imageNamed:@"btn_switch_off"] forState:UIControlStateNormal];
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,0,0,0", self.model.area, self.model.channel];
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,0,0,%d", self.model.area, self.model.channel, self.sourceNumber];
         } else {
             [on_off setTag:1];
             [on_off setImage:[UIImage imageNamed:@"btn_switch_on"] forState:UIControlStateNormal];
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,1,0,0", self.model.area, self.model.channel];
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,1,0,%d", self.model.area, self.model.channel, self.sourceNumber];
         }
     } else if (button == startButton) {
+        
+        
+        
+        if (self.sourceNumber == 99) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        
+        
+        
+        
+            BOOL isChosenMusicSource = NO;
+            for (int i = 0; i < [sourceButtons count]; i++) {
+                if ([[sourceButtons objectAtIndex:i] isSelected]) {
+                    isChosenMusicSource = YES;
+                } else {
+                    
+                }
+            }
+            if (!isChosenMusicSource) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+                [alert show];
+            }
+        
         if (button.tag == 1) {
             [startButton setTag:0];
             [startButton setBackgroundImage:[UIImage imageNamed:@"btn_play"] forState:UIControlStateNormal];
             [startButton setBackgroundImage:[UIImage imageNamed:@"btn_play_pressed"] forState:UIControlStateHighlighted];
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,2,0,0", self.model.area, self.model.channel];
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,2,0,%d", self.model.area, self.model.channel, self.sourceNumber];
         } else {
             NSNumber *vol = [[NSUserDefaults standardUserDefaults] objectForKey:@"vol"];
             if (vol) {
-                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,0", self.model.area, self.model.channel, [vol intValue]];
+//                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,0", self.model.area, self.model.channel, [vol intValue]];
+                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,%d", self.model.area, self.model.channel, 0, self.sourceNumber];
             } else {
-                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,0", self.model.area, self.model.channel, 15];
+//                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,0", self.model.area, self.model.channel, 15];
+                cmdString = [NSString stringWithFormat:@"*audioc %@,%@,3,%d,%d", self.model.area, self.model.channel, 0, self.sourceNumber];
             }
             [startButton setTag:1];
             [startButton setBackgroundImage:[UIImage imageNamed:@"btn_pause"] forState:UIControlStateNormal];
             [startButton setBackgroundImage:[UIImage imageNamed:@"btn_pause_pressed"] forState:UIControlStateHighlighted];
         }
     } else if (button == volHigherButton) {
-        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,7,0,0", self.model.area, self.model.channel];
+        
+        
+        if (self.sourceNumber == 99) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        
+        
+//        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,7,0,0", self.model.area, self.model.channel];
         NSNumber *vol = [[NSUserDefaults standardUserDefaults] objectForKey:@"vol"];
+        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,7,%d,%d", self.model.area, self.model.channel, [vol intValue], self.sourceNumber];
+
         if (vol) {
             if ([vol intValue] + 1 < 32) {
                 vol = [NSNumber numberWithInt:[vol intValue] + 1];
@@ -150,7 +269,13 @@
                 [[NSUserDefaults standardUserDefaults] synchronize];
             } else {
                 //提醒，最大音量
-                [KVNProgress showErrorWithStatus:@"最高音量"];
+//                [KVNProgress showErrorWithStatus:@"最高音量"];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                    message:@"最高音量"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"确定", nil];
+                [alertView show];
             }
         } else {
             vol = [NSNumber numberWithInt:16];
@@ -158,8 +283,23 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     } else if (button == volLowerButton) {
-        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,6,0,0", self.model.area, self.model.channel];
+        
+        
+        if (self.sourceNumber == 99) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        
+        
+//        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,6,0,0", self.model.area, self.model.channel];
         NSNumber *vol = [[NSUserDefaults standardUserDefaults] objectForKey:@"vol"];
+        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,6,%d,%d", self.model.area, self.model.channel, [vol intValue], self.sourceNumber];
+
         if (vol) {
             if ([vol intValue] - 1 > 0) {
                 vol = [NSNumber numberWithInt:[vol intValue] - 1];
@@ -167,7 +307,13 @@
                 [[NSUserDefaults standardUserDefaults] synchronize];
             } else {
                 //提醒，最小音量
-                [KVNProgress showErrorWithStatus:@"最低音量"];
+//                [KVNProgress showErrorWithStatus:@"最低音量"];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                    message:@"最低音量"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:@"确定", nil];
+                [alertView show];
             }
         } else {
             vol = [NSNumber numberWithInt:14];
@@ -175,18 +321,45 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     } else if (button == preButton) {
-        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,4,0,0", self.model.area, self.model.channel];
+        
+        if (self.sourceNumber == 99) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        
+        
+        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,4,0,%d", self.model.area, self.model.channel, self.sourceNumber];
     } else if (button == nextButton) {
-        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,5,0,0", self.model.area, self.model.channel];
+        
+        if (self.sourceNumber == 99) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                                message:@"请选择音源"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return;
+        }
+        
+        cmdString = [NSString stringWithFormat:@"*audioc %@,%@,5,0,%d", self.model.area, self.model.channel, self.sourceNumber];
     } else if ([sourceButtons containsObject:button]) {
         if ([button.titleLabel.text isEqualToString:@"FM"]) {
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,8,0,0", self.model.area, self.model.channel];
+            self.sourceNumber = 0;
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,8,0,%d", self.model.area, self.model.channel, self.sourceNumber];
         } else if ([button.titleLabel.text isEqualToString:@"MP3"]) {
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,9,0,0", self.model.area, self.model.channel];
+            self.sourceNumber = 1;
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,9,0,1, %d", self.model.area, self.model.channel, self.sourceNumber];
         } else if ([button.titleLabel.text isEqualToString:@"AUX"]) {
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,10,0,0", self.model.area, self.model.channel];
+            self.sourceNumber = 2;
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,10,0, %d", self.model.area, self.model.channel, self.sourceNumber];
         } else if ([button.titleLabel.text isEqualToString:@"DVD"]) {
-            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,11,0,0", self.model.area, self.model.channel];
+            self.sourceNumber = 3;
+            cmdString = [NSString stringWithFormat:@"*audioc %@,%@,11,0,%d", self.model.area, self.model.channel, self.sourceNumber];
         }
     }
     

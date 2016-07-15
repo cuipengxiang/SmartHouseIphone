@@ -56,7 +56,7 @@
         SHMusicView *musicView = [[SHMusicView alloc] initWithFrame:CGRectMake(320*i, 0.0, 320.0, 380.0) andModel:[self.musics objectAtIndex:i]];
         [musicScrollView addSubview:musicView];
         */
-        SHMusicViewNew *musicView = [[SHMusicViewNew alloc] initWithFrame:CGRectMake((musicScrollView.frame.size.width - 295.0)/2, (musicScrollView.frame.size.height - 419.0)/2 - 5.0, 295.0f, 419.0f) andModel:[self.musics objectAtIndex:i]];
+        SHMusicViewNew *musicView = [[SHMusicViewNew alloc] initWithFrame:CGRectMake(320*i+(musicScrollView.frame.size.width - 295.0)/2, (musicScrollView.frame.size.height - 419.0)/2 - 5.0, 295.0f, 419.0f) andModel:[self.musics objectAtIndex:i]];
         [musicScrollView addSubview:musicView];
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*15.0, 0.0, 10.0, 10.0)];
@@ -132,6 +132,10 @@
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     //[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:1 tag:0];
+    
+    // 刚发完清零
+    [self.appDelegate connectSucc];
+    //
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
@@ -143,8 +147,10 @@
 {
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }

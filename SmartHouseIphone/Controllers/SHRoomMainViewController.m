@@ -129,6 +129,7 @@
     SHModeViewController *modeController = [[SHModeViewController alloc] initWithNibName:nil bundle:nil];
     modeController.modes = self.model.modes;
     modeController.roomModel = self.model;
+    [modeController setNavigationTitle:@"场景"];
     [self.navigationController pushViewController:modeController animated:YES];
 }
 
@@ -136,6 +137,7 @@
 {
     SHLightViewController *lightController = [[SHLightViewController alloc] initWithNibName:nil bundle:nil];
     lightController.lights = self.model.lights;
+    [lightController setNavigationTitle:@"灯光"];
     [self.navigationController pushViewController:lightController animated:YES];
 }
 
@@ -143,6 +145,7 @@
 {
     SHCurtainViewController *curtainController = [[SHCurtainViewController alloc] initWithNibName:nil bundle:nil];
     curtainController.curtains = self.model.curtains;
+    [curtainController setNavigationTitle:@"窗帘"];
     [self.navigationController pushViewController:curtainController animated:YES];
 }
 
@@ -150,6 +153,7 @@
 {
     SHAirViewController *airController = [[SHAirViewController alloc] initWithNibName:nil bundle:nil];
     airController.airs = self.model.airconditionings;
+    [airController setNavigationTitle:@"空调"];
     [self.navigationController pushViewController:airController animated:YES];
 }
 
@@ -157,12 +161,14 @@
 {
     SHMusicViewController *musicController = [[SHMusicViewController alloc] initWithNibName:nil bundle:nil];
     musicController.musics = self.model.musics;
+    [musicController setNavigationTitle:@"音乐"];
     [self.navigationController pushViewController:musicController animated:YES];
 }
 
 - (void)onSettingButtonClicked
 {
     SHSettingsViewController *settingController = [[SHSettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [settingController setNavigationTitle:@"设置"];
     [self.navigationController pushViewController:settingController animated:YES];
 }
 
@@ -207,8 +213,10 @@
 {
     if (err) {
         [self setNetworkState:NO];
+        [self.appDelegate connectFail];
     } else {
         [self setNetworkState:YES];
+        [self.appDelegate connectSucc];
     }
     sock = nil;
 }
